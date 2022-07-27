@@ -6,7 +6,7 @@ const commentSchema = require('./Comment');
 const articleSchema = new Schema(
   {
     userId: {
-      type: ID,
+      type: String,
       required: true,
     },
     articleDate: {

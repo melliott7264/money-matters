@@ -3,7 +3,7 @@ var moment = require('moment');
 
 const commentSchema = new Schema({
   articleId: {
-    type: ID,
+    type: String,
     required: true,
   },
   commentBody: {
@@ -19,6 +19,7 @@ const commentSchema = new Schema({
     type: String,
   },
 });
+
 const Comment = model('Comment', commentSchema);
 
 module.exports = Comment;

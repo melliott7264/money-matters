@@ -38,7 +38,7 @@ const typeDefs = gql`
 
   type Article {
     _id: ID
-    userId: ID
+    userId: String
     articleDate: Date
     postDate: Date
     source: String
@@ -51,7 +51,7 @@ const typeDefs = gql`
 
   type Comment {
     _id: ID
-    articleId: ID
+    articleId: String
     commentBody: String
     postDate: Date
     username: String
