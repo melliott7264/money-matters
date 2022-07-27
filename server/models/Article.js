@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 var moment = require('moment');
 
-const Comment = require('./Comment');
+const commentSchema = require('./Comment').schema;
 
 const articleSchema = new Schema(
   {
@@ -32,7 +32,7 @@ const articleSchema = new Schema(
     username: {
       type: String,
     },
-    comments: [Comment],
+    comments: [commentSchema],
   },
   {
     toJSON: {
@@ -45,6 +45,6 @@ articleSchema.virtual('commentCount').get(function () {
   return this.comments.length;
 });
 
-const Article = model('Article', articleSchema);
+// const Article = model('Article', articleSchema);
 
-module.exports = Article;
+module.exports = articleSchema;
