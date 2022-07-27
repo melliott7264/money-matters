@@ -1,35 +1,36 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const commentSchema = require('./Comment')
-const articleSchema = require('./Article')
+// const Comment = require('./Comment');
+const Article = require('./Article');
 
 // Basic user definition
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+@.+\..+/, 'Must use a valid email address'],
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    // savedComments: [Comment],
+    savedArticles: [Article],
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: [/.+@.+\..+/, 'Must use a valid email address'],
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  savedComments: [commentSchema],
-  savedArticles: [articleSchema]
-},
-{
-  toJSON: {
-    virtuals: true,
-  },
-}
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 // hash user password

@@ -1,6 +1,8 @@
 const { Schema, model } = require('mongoose');
 var moment = require('moment');
 
+const articleSchema = require('./Article');
+
 const commentSchema = new Schema({
   articleId: {
     type: String,

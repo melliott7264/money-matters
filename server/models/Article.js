@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 var moment = require('moment');
 
-const commentSchema = require('./Comment');
+const Comment = require('./Comment');
 
 const articleSchema = new Schema(
   {
@@ -32,7 +32,7 @@ const articleSchema = new Schema(
     username: {
       type: String,
     },
-    comments: [commentSchema],
+    comments: [Comment],
   },
   {
     toJSON: {
