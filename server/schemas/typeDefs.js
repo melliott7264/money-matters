@@ -16,7 +16,6 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     saveArticle(
       articleDate: String!
-      postDate: String!
       source: String!
       title: String!
       description: String!
@@ -24,8 +23,8 @@ const typeDefs = gql`
       username: String!
     ): Article
     removeArticle(_id: ID!): Article
-    addComment(articleId: ID!, commentBody: String!): Comment
-    removeComment(_id: ID!, articleId: ID!): Comment
+    addComment(articleId: String!, commentBody: String!): Comment
+    removeComment(_id: ID!, articleId: String!): Comment
     editComment(_id: ID!, commentBody: String!): Comment
   }
 

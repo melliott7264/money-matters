@@ -9,6 +9,7 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id });
+        console.log(userData);
 
         return userData;
       }
@@ -72,14 +73,14 @@ const resolvers = {
     // Save article to logged in user
     saveArticle: async (
       parent,
-      { articleDate, postDate, source, title, description, url },
+      { articleDate, source, title, description, url },
       context
     ) => {
       if (context.user) {
         const articleData = await Article.create({
           username: context.user.username,
+          userId: context.user._id,
           articleDate: articleDate,
-          postDate: postDate,
           source: source,
           title: title,
           description: description,
