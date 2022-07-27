@@ -14,10 +14,10 @@ const Article = ({title, source, url, id, date, description}) => (
         </div>
         <p> {description}</p>
         <span className="btn-group float-right">
-            <button onClick={() => handleClick(id)} className="btn text-primary">
+            <button className="btn text-primary">
                 Post Article
             </button>
-            <button onClick={() => handleClick(id)} className="btn text-danger">
+            <button className="btn text-danger">
                 Save Article
             </button>
         </span>

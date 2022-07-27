@@ -23,7 +23,7 @@ class Browsing extends Component {
     getArticles() {
         axios
           .get(
-            "https://newsapi.org/v2/everything?q=economy&sortBy=publishedAt&apiKey=" + api_key
+            "https://newsapi.org/v2/top-headlines?country=us&category=business&sortBy=publishedAt&pageSize=100&apiKey=" + api_key
           )
           
           .then(res => {
