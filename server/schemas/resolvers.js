@@ -100,6 +100,7 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
+    // remove article from logged in user - user must be logged i
     removeArticle: async (parent, { _id }, context) => {
       if (context.user) {
         const removedArticle = await Article.findOneAndDelete({ _id: _id });
@@ -114,6 +115,7 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
+    // add a comment to the specified article - user must be logged i
     addComment: async (parent, { articleId, commentBody }, context) => {
       if (context.user) {
         commentData = await Comment.create({ commentBody });
@@ -128,6 +130,7 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
+    // remove a specific comment from the specified article - user must be logged i
     removeComment: async (parent, { commentId, articleId }, context) => {
       if (context.user) {
         commentData = await Comment.findOneAndDelete({ _id: commentId });
@@ -142,6 +145,7 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
+    // edit the specified comment - user must be logged in
     editComment: async (parent, { _id, commentBody }, context) => {
       if (context.user) {
         commentData = await findOneAndUpdate(
