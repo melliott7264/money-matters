@@ -23,7 +23,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    savedComments: [Comment],
     savedArticles: [Article],
   },
   {

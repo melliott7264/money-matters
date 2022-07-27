@@ -18,6 +18,7 @@ const resolvers = {
     // return all the articles saved by all the users
     articles: async (parent, args, context) => {
       const articleData = await Article.find({});
+      console.log(articleData);
 
       return articleData;
     },
