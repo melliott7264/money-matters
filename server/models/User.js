@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const commentSchema = require('./Comment').schema;
-const articleSchema = require('./Article').schema;
+const Comment = require('./Comment').schema;
+const Article = require('./Article').schema;
 
 // Basic user definition
 const userSchema = new Schema(
@@ -23,8 +23,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    savedComments: [commentSchema],
-    savedArticles: [articleSchema],
+    savedComments: [Comment],
+    savedArticles: [Article],
   },
   {
     toJSON: {
