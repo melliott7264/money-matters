@@ -25,7 +25,7 @@ const typeDefs = gql`
     ): Article
     removeArticle(_id: ID!): Article
     addComment(articleId: ID!, commentBody: String!): Comment
-    removecomment(_id: ID!): Comment
+    removecomment(_id: ID!, articleId: ID!): Comment
     editcomment(_id: ID!, commentBody: String!): Comment
   }
 
@@ -33,12 +33,12 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    savedComments: [Comments]
     savedArticles: [Articles]
   }
 
   type Article {
     _id: ID
+    userId: ID
     articleDate: Date
     postDate: Date
     source: String
@@ -51,6 +51,7 @@ const typeDefs = gql`
 
   type Comment {
     _id: ID
+    articleId: ID
     commentBody: String
     postDate: Date
     username: String
