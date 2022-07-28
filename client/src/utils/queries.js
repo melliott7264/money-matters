@@ -37,6 +37,7 @@ export const GET_ARTICLE = gql`
       description
       URL
       username
+      commentCount
       comments {
         _id
         articleId
@@ -94,6 +95,7 @@ export const GET_ME = gql`
       _id
       username
       email
+      articleCount
       savedArticles {
         _id
         articleDate
@@ -103,6 +105,7 @@ export const GET_ME = gql`
         description
         url
         username
+        commentCount
         comments {
           _id
           articleId
