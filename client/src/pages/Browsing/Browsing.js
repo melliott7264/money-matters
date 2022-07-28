@@ -37,14 +37,11 @@ class Browsing extends Component {
         return (
             <div>
                 <div className="jumbotron">
-                    <h1 className="text-center">
-                        <strong>Money Matters</strong>
-                    </h1>
                     <h2 className="text-center">
-                        Get the latest news about the economy here
+                        Get the Latest News About the Economy Here
                     </h2>
                     <div className="text-center">
-                        <button className="btn btn-success btn-lg" onClick={() => this.getArticles()}>Get News</button>
+                        <button className="btn btn-success btn-md" onClick={() => this.getArticles()}>Get News</button>
                     </div>
                 </div>
                 <div class="container">
