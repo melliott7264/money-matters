@@ -134,7 +134,7 @@ const resolvers = {
     // add a comment to the specified article - user must be logged i
     addComment: async (parent, { articleId, commentBody }, context) => {
       if (context.user) {
-        commentData = await Comment.create({ commentBody });
+        commentData = await Comment.create({ articleId, commentBody });
 
         savedComment = await Article.findOneAndUpdate(
           { _id: articleId },
