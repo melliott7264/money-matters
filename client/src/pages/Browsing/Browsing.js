@@ -60,7 +60,6 @@ class Browsing extends Component {
                                     {this.state.articles.map(article => (
                                         <Article
                                         key={article.url}
-                                        id={article.url}
                                         title={article.title}
                                         source={article.source}
                                         url={article.url}
