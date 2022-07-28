@@ -14,11 +14,11 @@ const Article = ({title, source, url, id, date, description,urlToImage}) => (
             </Nav.Link>
         </div>
         <p> {description}</p>
-        <img
+        {/* <img
         id = "article-image"
         src={urlToImage}
         alt="article_image"
-      />
+/> */}
         <div> 
             <div class='row g-0 align-middle'>
                 <div class='col-md-4 mt-2'>
