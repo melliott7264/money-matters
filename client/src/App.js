@@ -10,6 +10,7 @@ import {
 
 import { setContext } from '@apollo/client/link/context';
 
+import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
 import Navbar from "./components/Navbar";
 
@@ -42,6 +43,7 @@ function App() {
             <Route exact path="/browse" component={Browsing} />
           </Switch>
         </>
+        <Footer/>
       </Router>
     </ApolloProvider>
   );
