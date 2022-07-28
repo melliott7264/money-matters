@@ -8,7 +8,9 @@ const resolvers = {
     // return all the user information for the current logged in user
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
+        const userData = await User.findOne({ _id: context.user._id })
+          .populate({ path: 'savedArticles', model: Article })
+          .select('-__v');
         console.log(userData);
 
         return userData;
@@ -17,7 +19,9 @@ const resolvers = {
     },
     // return all the articles saved by all the users
     articles: async (parent, args, context) => {
-      const articleData = await Article.find({});
+      const articleData = await Article.find({})
+        .populate({ path: 'comments', model: 'Comment', select: '-__v' })
+        .select('-__v');
       console.log(articleData);
 
       return articleData;
@@ -25,7 +29,9 @@ const resolvers = {
 
     // return a specific article by article id
     article: async (parent, { _id }, context) => {
-      const articleData = await Article.findById({ _id: _id });
+      const articleData = await Article.findById({ _id: _id })
+        .populate({ path: 'comments', model: 'Comment', select: '-__v' })
+        .select('-__v');
 
       return articleData;
     },

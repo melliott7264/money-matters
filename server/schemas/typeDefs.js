@@ -5,10 +5,10 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type Query {
     me: User
-    articles: Article
-    article: Article
-    comments: Comment
-    comment: Comment
+    articles: [Article]
+    article(_id: ID!): Article
+    comments(articleId: ID!): [Comment]
+    comment(_id: ID!): Comment
   }
 
   type Mutation {
@@ -23,8 +23,8 @@ const typeDefs = gql`
       username: String!
     ): Article
     removeArticle(_id: ID!): Article
-    addComment(articleId: String!, commentBody: String!): Comment
-    removeComment(_id: ID!, articleId: String!): Comment
+    addComment(articleId: ID!, commentBody: String!): Comment
+    removeComment(_id: ID!, articleId: ID!): Comment
     editComment(_id: ID!, commentBody: String!): Comment
   }
 
@@ -32,12 +32,13 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
+    articleCount: Int
     savedArticles: [Article]
   }
 
   type Article {
     _id: ID
-    userId: String
+    userId: ID
     articleDate: String
     postDate: String
     source: String
@@ -45,12 +46,13 @@ const typeDefs = gql`
     description: String
     url: String
     username: String
+    commentCount: Int
     comments: [Comment]
   }
 
   type Comment {
     _id: ID
-    articleId: String
+    articleId: ID
     commentBody: String
     postDate: String
     username: String

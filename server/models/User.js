@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const Comment = require('./Comment').schema;
 const Article = require('./Article').schema;
 
 // Basic user definition

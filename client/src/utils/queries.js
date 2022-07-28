@@ -29,7 +29,7 @@ export const GET_ARTICLE = gql`
       description
       URL
       username
-      Comments {
+      comments {
         _id
         postDate
         username
@@ -41,8 +41,8 @@ export const GET_ARTICLE = gql`
 
 // Query all comments for user
 export const GET_COMMENTS = gql`
-  query comments($username: String!) {
-    comments(username: $username) {
+  query comments($articleId: String!) {
+    comments(articleId: $articleId) {
       _id
       articleId
       commentBody
