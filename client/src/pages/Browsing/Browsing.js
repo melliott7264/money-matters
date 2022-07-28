@@ -6,7 +6,7 @@ import './browsing.css'
 import axios from "axios";
 
 // Need to store this in a .env file in the future. 
-const api_key = '14e9f6d27bbb49dcab1ffe0bf2542b26';
+const api_key = '756752a60f5b4b0da01c1c635aebe0ed';
 
 class Browsing extends Component {
     state = {
@@ -41,7 +41,7 @@ class Browsing extends Component {
                         Get the Latest News About the Economy Here
                     </h2>
                     <div className="text-center">
-                        <button className="btn btn-success btn-md" onClick={() => this.getArticles()}>Get News</button>
+                        <button className="btn btn-success btn-md mt-1" onClick={() => this.getArticles()}>Get News</button>
                     </div>
                 </div>
                 <div class="container">
@@ -62,6 +62,7 @@ class Browsing extends Component {
                                         url={article.url}
                                         date={article.publishedAt}
                                         description={article.description}
+                                        urlToImage={article.urlToImage}
                                         />
                                     ))}
                                 </ul>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import SignUpForm from './Signup';
-import LoginForm from './Login';
+import SignUp from './Signup';
+import Login from './Login';
 
 import Auth from '../utils/auth';
 
@@ -11,8 +11,8 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='md'>
-        <Container fluid>
+      <Navbar bg='dark' variant='dark'>
+        <Container fluid className="justify-content-center" >
         <Navbar.Brand style={{ color: 'lightgreen' }} href="/">
             <img
               alt=""
@@ -24,26 +24,23 @@ const AppNavbar = () => {
             />{' '}
             Money Matters
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
-          <Navbar.Collapse id='navbar'>
-            <Nav className='ml-auto'>
+            <Nav className='ml-auto justify-content-end'>
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link style={{ color: 'green' }} as={Link} to='/saved'>
                     Your Saved News
                   </Nav.Link>
-                  <Nav.Link as={Link} to='/browse'>
+                  <Nav.Link style={{ color: 'green' }} as={Link} to='/browse'>
                     Browse Latest News
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>
+                  <Nav.Link style={{ color: 'green' }} onClick={Auth.logout}>
                     Logout
                   </Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                <Nav.Link style={{ color: 'green' }} onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
-          </Navbar.Collapse>
         </Container>
       </Navbar>
       <Modal
@@ -67,10 +64,10 @@ const AppNavbar = () => {
           <Modal.Body>
             <Tab.Content>
               <Tab.Pane eventKey='login'>
-                <LoginForm handleModalClose={() => setShowModal(false)} />
+                <Login handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
               <Tab.Pane eventKey='signup'>
-                <SignUpForm handleModalClose={() => setShowModal(false)} />
+                <SignUp handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
             </Tab.Content>
           </Modal.Body>

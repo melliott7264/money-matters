@@ -4,7 +4,7 @@ import { Globe } from 'react-bootstrap-icons';
 import { Nav } from "react-bootstrap";
 import './article.css'
 
-const Article = ({title, source, url, id, date, description}) => (
+const Article = ({title, source, url, id, date, description,urlToImage}) => (
     <li className="list-group-item px-2">
         <div className="d-flex align-items-end"> 
             {/* <h4>{source.name} : {title}</h4> */}
@@ -14,6 +14,11 @@ const Article = ({title, source, url, id, date, description}) => (
             </Nav.Link>
         </div>
         <p> {description}</p>
+        <img
+        id = "article-image"
+        src={urlToImage}
+        alt="article_image"
+      />
         <div> 
             <div class='row g-0 align-middle'>
                 <div class='col-md-4 mt-2'>
