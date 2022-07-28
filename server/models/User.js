@@ -1,24 +1,35 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const Article = require('./Article').schema;
+
 // Basic user definition
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+@.+\..+/, 'Must use a valid email address'],
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    savedArticles: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: [/.+@.+\..+/, 'Must use a valid email address'],
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 // hash user password
 userSchema.pre('save', async function (next) {
@@ -34,6 +45,10 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
+
+userSchema.virtual('articleCount').get(function () {
+  return this.savedArticles.length;
+});
 
 const User = model('User', userSchema);
 
