@@ -5,8 +5,7 @@ var moment = require('moment');
 
 const commentSchema = new Schema({
   articleId: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
   },
   commentBody: {
     type: String,

@@ -13,6 +13,14 @@ export const GET_ARTICLES = gql`
       description
       url
       username
+      commentCount
+      comments {
+        _id
+        articleId
+        commentBody
+        postDate
+        username
+      }
     }
   }
 `;
@@ -31,6 +39,7 @@ export const GET_ARTICLE = gql`
       username
       comments {
         _id
+        articleId
         postDate
         username
         commentBody
@@ -39,9 +48,22 @@ export const GET_ARTICLE = gql`
   }
 `;
 
+// Query ALL comments for ALL users
+export const GET_ALL_COMMENTS = gql`
+  query allComments {
+    allComments {
+      _id
+      articleId
+      commentBody
+      postDate
+      username
+    }
+  }
+`;
+
 // Query all comments for user
 export const GET_COMMENTS = gql`
-  query comments($articleId: String!) {
+  query comments($articleId: ID!) {
     comments(articleId: $articleId) {
       _id
       articleId

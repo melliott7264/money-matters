@@ -22,7 +22,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    savedArticles: [Article],
+    savedArticles: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
   },
   {
     toJSON: {

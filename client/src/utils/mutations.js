@@ -84,5 +84,4 @@ mutation editComment($_id: ID!, $commentBody: String!){
 		}
 	}
 }
-
 `;

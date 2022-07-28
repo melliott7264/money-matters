@@ -9,7 +9,7 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .populate({ path: 'savedArticles', model: Article })
+          .populate({ path: 'savedArticles', model: 'Article' })
           .select('-__v');
         console.log(userData);
 
@@ -35,6 +35,14 @@ const resolvers = {
 
       return articleData;
     },
+
+    // return all the comments for all articles
+    allComments: async (parent, args, context) => {
+      const commentData = await Comment.find({});
+      console.log(commentData);
+      return commentData;
+    },
+
     // return all comments for the selected article
     comments: async (parent, { articleId }, context) => {
       const commentData = await Comment.find({
@@ -139,13 +147,13 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     // remove a specific comment from the specified article - user must be logged i
-    removeComment: async (parent, { commentId, articleId }, context) => {
+    removeComment: async (parent, { _id, articleId }, context) => {
       if (context.user) {
-        commentData = await Comment.findOneAndDelete({ _id: commentId });
+        commentData = await Comment.findOneAndDelete({ _id: _id });
 
         removedComment = await Article.findOneAndUpdate(
           { _id: articleId },
-          { $pull: { comments: commentId } },
+          { $pull: { comments: _id } },
           { new: true }
         );
 
@@ -156,7 +164,7 @@ const resolvers = {
     // edit the specified comment - user must be logged in
     editComment: async (parent, { _id, commentBody }, context) => {
       if (context.user) {
-        commentData = await findOneAndUpdate(
+        commentData = await Comment.findOneAndUpdate(
           { _id: _id },
           { commentBody: commentBody },
           { new: true }

@@ -6,8 +6,7 @@ const Comment = require('./Comment').schema;
 const articleSchema = new Schema(
   {
     userId: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
     },
     articleDate: {
       type: Date,
@@ -32,7 +31,7 @@ const articleSchema = new Schema(
     username: {
       type: String,
     },
-    comments: [Comment],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   {
     toJSON: {

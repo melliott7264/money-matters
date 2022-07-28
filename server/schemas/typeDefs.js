@@ -7,6 +7,7 @@ const typeDefs = gql`
     me: User
     articles: [Article]
     article(_id: ID!): Article
+    allComments: [Comment]
     comments(articleId: ID!): [Comment]
     comment(_id: ID!): Comment
   }
