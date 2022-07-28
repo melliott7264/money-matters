@@ -9,8 +9,9 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .populate({ path: 'savedArticles', model: 'Article' })
+          .populate({ path: 'savedArticles', populate: { path: 'comments' } })
           .select('-__v');
+
         console.log(userData);
 
         return userData;
