@@ -35,7 +35,7 @@ export const GET_ARTICLE = gql`
       source
       title
       description
-      URL
+      url
       username
       commentCount
       comments {
