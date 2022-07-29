@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const SavedNewsPage =   () => {
+const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
  
     const userDataLength = Object.keys(userData).length;
@@ -44,7 +44,7 @@ const SavedNewsPage =   () => {
             throw new Error('Something went wrong!');
     }
 
-    const updateUser = await response.json();
+    const updatedUser = await response.json();
     setUserData(updatedUser);
     removeArticleid(articleId);
     } catch (err) {
