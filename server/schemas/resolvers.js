@@ -5,6 +5,11 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
+    // return all the users - for testing only!
+    users: async (parent, args, context) => {
+      const userData = await User.find({});
+      return userData;
+    },
     // return all the user information for the current logged in user
     me: async (parent, args, context) => {
       if (context.user) {

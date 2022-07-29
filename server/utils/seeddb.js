@@ -23,44 +23,41 @@ async function seedDB() {
     useNewUrlParser: true,
     // useUnifiedTopology: true,
   });
+  console.log('Client config: ' + client);
 
   try {
     await client.connect();
     console.log('Connected correctly to server');
 
-    const collection = client.db('iot').collection('kitty-litter-time-series');
+    const usersCollection = client.db('project3').collection('users');
+    const articlesCollection = client.db('project3').collection('articles');
+    const commentsCollection = client.db('project3').collection('comments');
 
     // The drop() command destroys all data from a collection.
     // Make sure you run it against proper database and collection.
-    collection.drop();
+    usersCollection.drop();
+    articlesCollection.drop();
+    commentsCollection.drop();
 
-    // make a bunch of time series data
-    let timeSeriesData = [];
+    // Create collections for users, articles, and comments
+    let usersDataArray = [];
+    let articlesDataArray = [];
+    let commentsDataArray = [];
 
-    for (let i = 0; i < 5000; i++) {
-      const firstName = faker.name.firstName();
-      const lastName = faker.name.lastName();
-      let newDay = {
-        timestamp_day: faker.date.past(),
-        cat: faker.random.word(),
-        owner: {
-          email: faker.internet.email(firstName, lastName),
-          firstName,
-          lastName,
-        },
-        events: [],
-      };
-
-      for (let j = 0; j < randomIntFromInterval(1, 6); j++) {
-        let newEvent = {
-          timestamp_event: faker.date.past(),
-          weight: randomIntFromInterval(14, 16),
-        };
-        newDay.events.push(newEvent);
-      }
-      timeSeriesData.push(newDay);
+    for (let i = 0; i < 50; i++) {
+      const username = faker.internet.username();
+      const email = faker.internet.exampleEmail();
+      const password = 'password1234';
+      let newUser = { username: username, email: email, password: password };
+      userDataArray.push(newUser);
     }
-    collection.insertMany(timeSeriesData);
+
+    // create article data - three per user
+
+    // create comment data - three per article
+
+    // insert user data
+    collection.insertMany(userData);
 
     console.log('Database seeded! :)');
     client.close();
