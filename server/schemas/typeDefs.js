@@ -22,7 +22,6 @@ const typeDefs = gql`
       title: String!
       description: String!
       url: String!
-      username: String!
     ): Article
     removeArticle(_id: ID!): Article
     addComment(articleId: ID!, commentBody: String!): Comment
