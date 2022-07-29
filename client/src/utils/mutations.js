@@ -29,17 +29,30 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_ARTICLE = gql`
-mutation saveArticle($articleDate: String!, $source: String!, $title: String!, $description: String!, $url: String!) {
-	saveArticle(articleDate: $articleDate, source: $source, title: $title, description: $description, url: $url) {
-	_id
-	articleDate
-	postDate
-	source
-	title 
-	description
-	url
-  username
-}
+  mutation saveArticle(
+    $articleDate: String!
+    $source: String!
+    $title: String!
+    $description: String!
+    $url: String!
+  ) {
+    saveArticle(
+      articleDate: $articleDate
+      source: $source
+      title: $title
+      description: $description
+      url: $url
+    ) {
+      _id
+      articleDate
+      postDate
+      source
+      title
+      description
+      url
+      username
+    }
+  }
 `;
 
 export const REMOVE_ARTICLE = gql`
