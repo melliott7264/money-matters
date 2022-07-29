@@ -1,5 +1,5 @@
 import React from 'react';
-import Article from '../../components/Article';
+import Article from '../../components/Article/Article';
 import './main.css'
 
 import { useQuery } from 'apollo/client';
@@ -12,14 +12,21 @@ const Main = () =>  {
 
     return (
         <main>
-            <div className='flex-row justify-space-between'>
-                <div className='col-12 mb-3'>
-                    {saveArticle}
-
-                </div>
+        <div className="flex-row justify-space-between">
+          {saveArticle && (
+            <div className="col-12 mb-3">
+              <Article />
             </div>
-        </main>
-    )
+          )}
+         
+     
+        </div>
+      </main>
+    );
+  
+  
+
+
 };
 
 export default Main;
