@@ -4,7 +4,7 @@ import { Globe } from 'react-bootstrap-icons';
 import { Nav } from 'react-bootstrap';
 import './article_browsing.css';
 
-const Article = ({ title, source, url, date, description}) => (
+const Article = ({ title, source, url, date, description, handleClick}) => (
   <li className="list-group-item px-2">
     <div className="d-flex align-items-end">
       {/* <h4>{source.name} : {title}</h4> */}
@@ -21,8 +21,7 @@ const Article = ({ title, source, url, date, description}) => (
         </div>
         <div className="col-md-4 w-auto ms-auto">
           <span className="btn-group float-right">
-            <button className="btn text-primary">Post Article</button>
-            <button className="btn text-danger">Save Article</button>
+            <button onClick={() => handleClick()} className="btn text-danger">Save Article</button>
           </span>
         </div>
       </div>
