@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 
-import Auth from "../utils/auth";
-import { ADD_USER } from "../utils/mutations";
+import Auth from '../utils/auth';
+import { ADD_USER } from '../utils/mutations';
 
 const Signup = () => {
   const [userFormData, setUserFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   });
 
   const [validated] = useState(false);
@@ -37,15 +37,14 @@ const Signup = () => {
       });
 
       Auth.login(data.addUser.token);
-
     } catch (err) {
       setShowAlert(true);
     }
 
     setUserFormData({
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     });
   };
 
@@ -105,9 +104,9 @@ const Signup = () => {
             Password is required!
           </Form.Control.Feedback>
         </Form.Group>
-        <div className="text-center"> 
+        <div className="text-center">
           <Button
-            style={{text: 'center'}}
+            style={{ text: 'center' }}
             disabled={
               !(
                 userFormData.username &&

@@ -5,6 +5,7 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type Query {
     me: User
+    users: [User]
     articles: [Article]
     article(_id: ID!): Article
     allComments: [Comment]
@@ -16,13 +17,14 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     saveArticle(
+      post: Boolean
       articleDate: String!
       source: String!
       title: String!
       description: String!
       url: String!
-      username: String!
     ): Article
+    postArticle(_id: ID!, post: Boolean!): Article
     removeArticle(_id: ID!): Article
     addComment(articleId: ID!, commentBody: String!): Comment
     removeComment(_id: ID!, articleId: ID!): Comment
@@ -40,6 +42,7 @@ const typeDefs = gql`
   type Article {
     _id: ID
     userId: ID
+    post: Boolean
     articleDate: String
     postDate: String
     source: String
