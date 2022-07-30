@@ -3,6 +3,7 @@ import Auth from '../../utils/auth';
 import { removeArticleid, saveArticleIds } from '../utils/localStorage';
 import { REMOVE_ARTICLE } from '../utils/graphql/mutations';
 import { GET_ME } from '../utils/queries';
+import Article from '../components/Article';
 
 const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
@@ -48,7 +49,7 @@ const SavedNewsPage = () => {
     return (
         <>
             <div>
-                <h1>Saved Articles</h1>
+                <span className="card-title text-center">Saved Articles</span>
                 <div className="card-body">
                     <div className="panel-body">
                         <ul className="list-group">
@@ -62,12 +63,14 @@ const SavedNewsPage = () => {
                                     description={article.description}
                                     urlToImage={article.urlToImage}
                                 />
-                                //      <Button
-                                //     className="btn-block btn-danger"
-                                //     onClick={() => handleDeleteArticle(article.articleId)}
-                                //   >Delete this Article!</Button>
                             ))}
                         </ul>
+                        <div>
+                            <Button
+                                className="btn-block btn-danger"
+                                onClick={() => handleDeleteArticle(article.articleId)}
+                            >Delete this Article!</Button>
+                        </div>
                     </div>
                 </div>
             </div>
