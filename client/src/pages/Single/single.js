@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Card,
-  CardColumns,
-} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
 import {
@@ -16,14 +8,19 @@ import {
   EDIT_COMMENT,
 } from '../../utils/mutations';
 
-import './comment.css';
+import './single.css';
 
 import Article from '../../components/Article';
 import Comment from '../../components/Comment';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
 
-const Single = ({ _id }) => {
+const Single = ({ id }) => {
+  // put in default id for testing - REMOVE FOR DEPLOYMENT
+  if (!id) {
+    id = '62e4057e8565cedb6f7b8887';
+    console.log('id : ' + id);
+  }
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState({});
   // get comment state
@@ -37,16 +34,17 @@ const Single = ({ _id }) => {
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
   const { loading, error, data } = useQuery(GET_ARTICLE, {
-    variables: { id: _id },
+    variables: { id: id },
   });
+  // const { loading, error, data } = useQuery(GET_ARTICLES);
 
   // runs once data has loaded
   useEffect(() => {
     const article = data?.article || {};
     //sets userData displaying article information
     setArticleData(article);
-    console.log('articleData: ' + articleData);
-  }, [data]);
+    console.log('articleData: ' + JSON.stringify(articleData));
+  }, [data, articleData]);
 
   const handleComment = async (userId) => {
     try {
@@ -103,7 +101,7 @@ const Single = ({ _id }) => {
               </Col>
             </Form.Row>
           </Form>
-          <Comment />
+          {/* <Comment /> */}
         </Row>
       </Row>
     </Container>
