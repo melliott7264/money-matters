@@ -15,7 +15,7 @@ import Browsing from './pages/Browsing';
 import Navbar from './components/Navbar';
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:3001/graphql',
+  //uri: 'http://localhost:3001/graphql',
   uri: '/graphql',
 });
 
