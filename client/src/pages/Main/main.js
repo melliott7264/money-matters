@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Article from '../../components/Article/Article';
 import './main.css'
@@ -18,6 +19,7 @@ const Main = () =>  {
               <Article />
             </div>
           )}
+          <Single _id = {Article}/>
          
      
         </div>
@@ -30,3 +32,7 @@ const Main = () =>  {
 };
 
 export default Main;
+  
+  
+
+
