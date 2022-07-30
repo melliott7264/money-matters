@@ -7,7 +7,7 @@ import { useQuery, useMutation } from '@apollo/client';
 
 // Imports the Article & CSS from SavedNewsPage.css
 import Article from '../components/Article';
-import './/SavedNewsPage.css';
+import './SavedNewsPage.css';
 
 // Import Bootstrap CSS
 import {
@@ -40,7 +40,7 @@ const SavedNewsPage = () => {
 
     const handleDeleteArticle = async (articleId) => {
         try {
-            const reposne = await deleteArticle({
+            const response = await deleteArticle({
                 variable: { articleId: articleId },
             });
             if (response) {
@@ -76,8 +76,7 @@ const SavedNewsPage = () => {
                 <Row>
                     <div className="panel-body">
                         <ul className="list-group">
-                            {this.state.articles.map(article => (
-                                <Article
+                             <Article
                                 key={articleData.url}
                                 title={articleData.title}
                                 source={articleData.source}
@@ -86,12 +85,11 @@ const SavedNewsPage = () => {
                                 description={articleData.description}
                                 urlToImage={articleData.urlToImage}
                                 />
-                            ))}
-                        </ul>
                         <Button
                             className="btn-block btn-danger"
                             onClick={() => handleDeleteArticle(article.articleId)}
                         >Delete this Article!</Button>
+                        </ul>
                     </div>
                 </Row>
             </Container>
