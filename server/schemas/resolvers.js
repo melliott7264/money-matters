@@ -91,16 +91,32 @@ const resolvers = {
 
       return { token, user };
     },
+
+    // Mark article as a post(public) by changing post to true
+    postArticle: async (parent, { _id, post }, context) => {
+      if (context.user) {
+        const articleData = await Article.findOneAndUpdate(
+          { _id: _id },
+          { post: post },
+          { new: true }
+        );
+
+        return articleData;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+
     // Save article to logged in user
     saveArticle: async (
       parent,
-      { articleDate, source, title, description, url },
+      { post, articleDate, source, title, description, url },
       context
     ) => {
       if (context.user) {
         const articleData = await Article.create({
           username: context.user.username,
           userId: context.user._id,
+          post: post,
           articleDate: articleDate,
           source: source,
           title: title,

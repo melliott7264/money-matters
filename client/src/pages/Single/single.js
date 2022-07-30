@@ -18,9 +18,12 @@ import {
 
 import './comment.css';
 
+import Article from '../../components/Article';
+import Comment from '../../components/Comment';
+
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
 
-const Comment = ({ _id }) => {
+const Single = ({ _id }) => {
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState({});
   // get comment state
@@ -71,52 +74,40 @@ const Comment = ({ _id }) => {
   return (
     <Container>
       <Row>
-        <Col>
-          <h2 className="text-centered">{articleData.article.title}</h2>
-        </Col>
+        <Article
+          key={articleData.url}
+          title={articleData.title}
+          source={articleData.source}
+          url={articleData.url}
+          date={articleData.publishedAt}
+          description={articleData.description}
+          urlToImage={articleData.urlToImage}
+        />
         <Row>
-          <Col>
-            <h3 className="text-centered">{articleData.article.articleDate}</h3>
-          </Col>
-          <Col>
-            <h3 className="text-centered">{articleData.article.source}</h3>
-          </Col>
-          <Row>
-            <span>
-              <h4>{articleData.article.postDate}</h4>
-            </span>
-            <span>
-              <h4>{articleData.article.username}</h4>
-            </span>
-          </Row>
-          <Row>
-            <p>{articleData.article.description}</p>
-          </Row>
-          <Row>
-            <Form onSubmit={handleComment(articleData.user._id)}>
-              <Form.Row>
-                <Col xs={12} md={8}>
-                  <Form.Control
-                    as="textarea"
-                    name="commentBody"
-                    value={articleData.comment.commentBody}
-                    onChange={handleCommentChange}
-                    size="lg"
-                    placeholder="Comment on the article..."
-                  />
-                </Col>
-                <Col xs={12} md={4}>
-                  <Button type="submit" variant="success" size="lg">
-                    Add Comment
-                  </Button>
-                </Col>
-              </Form.Row>
-            </Form>
-          </Row>
+          <Form onSubmit={handleComment(articleData.user._id)}>
+            <Form.Row>
+              <Col xs={12} md={8}>
+                <Form.Control
+                  as="textarea"
+                  name="commentBody"
+                  value={articleData.comment.commentBody}
+                  onChange={handleCommentChange}
+                  size="lg"
+                  placeholder="Comment on the article..."
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <Button type="submit" variant="success" size="lg">
+                  Add Comment
+                </Button>
+              </Col>
+            </Form.Row>
+          </Form>
+          <Comment />
         </Row>
       </Row>
     </Container>
   );
 };
 
-export default Comment;
+export default Single;
