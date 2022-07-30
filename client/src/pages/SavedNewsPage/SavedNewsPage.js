@@ -23,7 +23,7 @@ const SavedNewsPage = () => {
 
     // const userDataLength = Object.keys(userData).length;
 
-    const { loading, data } = useQuery(GET_ME);
+    const { loading , data } = useQuery(GET_ME);
 
     useEffect(() => {
         const user = data?.me || {};
