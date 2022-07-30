@@ -3,3 +3,4 @@ const Comment = require('./Comment');
 const Article = require('./Article')
 
 module.exports = { User, Comment, Article };
+

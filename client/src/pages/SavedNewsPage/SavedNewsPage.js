@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+
 const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
+    
  
     const userDataLength = Object.keys(userData).length;
 
@@ -59,7 +61,28 @@ if (!userDataLength) {
 
 // Returns the saved articles
 return (
-    <div></div>
+    <div>
+        <h1>Saved Articles</h1>
+        <div className="card-body">
+            <div className="panel-body">
+                <ul className="list-group">
+                    {this.state.articles.map(article => (
+                        <Article
+                            key={article.url}
+                            title={article.title}
+                            source={article.source}
+                            url={article.url}
+                            date={article.publishedAt}
+                            description={article.description}
+                            urlToImage={article.urlToImage}
+                        />
+                    ))}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
 );
 }
 
