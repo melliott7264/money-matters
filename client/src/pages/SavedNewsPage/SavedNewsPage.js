@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Auth from '../../utils/auth';
+import Auth from '../utils/auth';
 import { removeArticleid, saveArticleIds } from '../utils/localStorage';
 import { REMOVE_ARTICLE } from '../utils/graphql/mutations';
 import { GET_ME } from '../utils/queries';
+import { useQuery, useMutation } from '@apollo/client';
+
+// Imports the Article & CSS from SavedNewsPage.css
 import Article from '../components/Article';
+import './/SavedNewsPage.css';
+
+// Import Bootstrap CSS
+import {
+    Jumbotron,
+    Container,
+    Row,
+    Button,
+} from 'react-bootstrap';
 
 const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
@@ -48,32 +60,41 @@ const SavedNewsPage = () => {
     // Returns the saved articles
     return (
         <>
-            <div>
+        <Jumbotron>
+            <Container>
                 <span className="card-title text-center">Saved Articles</span>
-                <div className="card-body">
+            </Container>
+        </Jumbotron>
+        <Container>
+            <h1>
+                {userData.savedArticles?.length
+                ? `Viewing ${userData.savedArticles.length} saved ${
+                    userData.savedArticles.length === 1 ? 'article' : 'articles'
+                }:`
+                : 'No saved articles!'}
+            </h1>
+                <Row>
                     <div className="panel-body">
                         <ul className="list-group">
                             {this.state.articles.map(article => (
                                 <Article
-                                    key={article.url}
-                                    title={article.title}
-                                    source={article.source}
-                                    url={article.url}
-                                    date={article.publishedAt}
-                                    description={article.description}
-                                    urlToImage={article.urlToImage}
+                                key={articleData.url}
+                                title={articleData.title}
+                                source={articleData.source}
+                                url={articleData.url}
+                                date={articleData.publishedAt}
+                                description={articleData.description}
+                                urlToImage={articleData.urlToImage}
                                 />
                             ))}
                         </ul>
-                        <div>
-                            <Button
-                                className="btn-block btn-danger"
-                                onClick={() => handleDeleteArticle(article.articleId)}
-                            >Delete this Article!</Button>
-                        </div>
+                        <Button
+                            className="btn-block btn-danger"
+                            onClick={() => handleDeleteArticle(article.articleId)}
+                        >Delete this Article!</Button>
                     </div>
-                </div>
-            </div>
+                </Row>
+            </Container>
         </>
     );
 };
