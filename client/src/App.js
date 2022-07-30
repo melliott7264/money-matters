@@ -14,14 +14,8 @@ import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
 import Navbar from './components/Navbar';
 
-const PORT = process.env.PORT || 3001;
-
-const uri = `http://localhost:${PORT}/graphql`;
-
-console.log('GraphQL uri: ' + uri);
-
 const httpLink = createHttpLink({
-  uri: uri,
+  uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
