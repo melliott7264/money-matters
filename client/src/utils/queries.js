@@ -6,6 +6,7 @@ export const GET_ARTICLES = gql`
     articles {
       _id
       userId
+      post
       articleDate
       postDate
       source
@@ -30,12 +31,13 @@ export const GET_ARTICLE = gql`
   query article($id: ID!) {
     article(_id: $id) {
       _id
+      post
       articleDate
       postDate
       source
       title
       description
-      URL
+      url
       username
       commentCount
       comments {
@@ -114,6 +116,17 @@ export const GET_ME = gql`
           username
         }
       }
+    }
+  }
+`;
+
+// Query ALL users for testing only
+export const GET_ALL_USERS = gql`
+  query users {
+    users {
+      _id
+      username
+      email
     }
   }
 `;

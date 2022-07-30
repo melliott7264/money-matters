@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
   ApolloClient,
@@ -12,10 +12,16 @@ import { setContext } from '@apollo/client/link/context';
 
 import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
-import Navbar from "./components/Navbar";
+import Navbar from './components/Navbar';
+
+const PORT = process.env.PORT || 3001;
+
+const uri = `http://localhost:${PORT}/graphql`;
+
+console.log('GraphQL uri: ' + uri);
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3001/graphql',
+  uri: uri,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -38,12 +44,12 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <>
-        <Navbar/>
+          <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
           </Switch>
         </>
-        <Footer/>
+        <Footer />
       </Router>
     </ApolloProvider>
   );
