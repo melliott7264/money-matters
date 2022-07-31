@@ -46,10 +46,10 @@ const Single = ({ id }) => {
   //   setArticleData(article);
   // }, [data]);
 
-  const handleComment = async (userId) => {
+  const handleComment = async (articleId) => {
     try {
       const response = await addComment({
-        variables: { articleId: userId, commentBody: commentData },
+        variables: { articleId: articleId, commentBody: commentData },
       });
     } catch (err) {
       console.error(err);
@@ -81,11 +81,13 @@ const Single = ({ id }) => {
           description={article.description}
         />
         <Row>
-          {/* <Form onSubmit={handleComment(article.userId)}>
+          {/* <Form onSubmit={handleComment(article._id)}>
             <Form.Row>
               <Col xs={12} md={8}>
+                <Form.Label>Comment</Form.Label>
                 <Form.Control
                   as="textarea"
+                  rows="3"
                   name="commentBody"
                   onChange={handleCommentChange}
                   size="lg"
