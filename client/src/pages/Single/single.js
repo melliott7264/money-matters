@@ -22,9 +22,9 @@ const Single = ({ id }) => {
     console.log('id : ' + id);
   }
   // use useState to update screen with article data
-  // const [articleData, setArticleData] = useState({});
+  const [articleData, setArticleData] = useState();
   // get comment state
-  const [commentData, setComment] = useState({});
+  const [commentData, setComment] = useState();
 
   // define callback functions for mutations
   const [addComment, { addError }] = useMutation(ADD_COMMENT);
@@ -37,19 +37,19 @@ const Single = ({ id }) => {
     variables: { id: id },
   });
 
-  const article = data?.article || {};
+  // const article = data?.article || {};
 
   // runs once data has loaded
-  // useEffect(() => {
-  //   const article = data?.article || {};
-  //   //sets userData displaying article information
-  //   setArticleData(article);
-  // }, [data]);
+  useEffect(() => {
+    const article = data?.article || {};
+    //sets userData displaying article information
+    setArticleData(article);
+  }, [data]);
 
-  const handleComment = async (articleId) => {
+  const handleComment = async () => {
     try {
       const response = await addComment({
-        variables: { articleId: articleId, commentBody: commentData },
+        variables: { articleId: articleData._id, commentBody: commentData },
       });
     } catch (err) {
       console.error(err);
@@ -58,7 +58,6 @@ const Single = ({ id }) => {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    console.log('comment change: ' + commentData);
   };
 
   if (loading) {
@@ -73,34 +72,32 @@ const Single = ({ id }) => {
     <Container>
       <Row>
         <Article
-          key={article.url}
-          title={article.title}
-          source={article.source}
-          url={article.url}
-          date={article.publishedAt}
-          description={article.description}
+          key={articleData.url}
+          title={articleData.title}
+          source={articleData.source}
+          url={articleData.url}
+          date={articleData.publishedAt}
+          description={articleData.description}
         />
         <Row>
-          {/* <Form onSubmit={handleComment(article._id)}>
-            <Form.Row>
-              <Col xs={12} md={8}>
-                <Form.Label>Comment</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows="3"
-                  name="commentBody"
-                  onChange={handleCommentChange}
-                  size="lg"
-                  placeholder="Comment on the article..."
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Add Comment
-                </Button>
-              </Col>
-            </Form.Row>
-          </Form> */}
+          <Form onSubmit={handleComment}>
+            <Form.Group>
+              <Form.Label size="lg">Comment:</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="3"
+                name="commentBody"
+                value={commentData}
+                // defaultValue="Comment on the article"
+                onChange={handleCommentChange}
+                size="lg"
+              />
+            </Form.Group>
+
+            <Button type="submit" variant="primary" size="lg">
+              Add Comment
+            </Button>
+          </Form>
           {/* <Comment /> */}
         </Row>
       </Row>
