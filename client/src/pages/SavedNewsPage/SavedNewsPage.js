@@ -99,3 +99,38 @@ const SavedNewsPage = () => {
 
 export default SavedNewsPage;
 
+ // Creating a function to handle saving a Article to the database
+//  const handleSaveArticle = async (articleId) => {
+//     // find the Article in `searchedArticles` state by the matching id
+//     const ArticleToSave = searchedArticles.find((article) => article.articleId === articleId);
+
+//     try {
+//       const response = await saveArticle({
+//         variables: { body: { ...ArticleToSave } },
+//       });
+
+//       // If the Article successfully saves to user's account, save Article id to state
+//       setSavedArticleIds([...savedArticleIds, ArticleToSave.articleId]);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+
+
+//If the user is login the save button Article option is shown 
+// {Auth.loggedIn() && (
+//     <Button
+//       disabled={savedArticlesIds?.some(
+//         (savedArticleId) => savedArticleId === article.articleId
+//       )}
+//       className="btn-block btn-info"
+//       onClick={() => handleSaveArticle(article.articleId)}
+//     >
+//       {savedArticleIds?.some(
+//         (savedArticleId) => savedArticleId === article.articleId
+//       )
+//         ? 'This Article has already been saved!'
+//         : 'Save this Article!'}
+//     </Button>
+//   )}
