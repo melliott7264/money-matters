@@ -1,15 +1,32 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import moment from 'moment';
 import { Globe } from 'react-bootstrap-icons';
 import { Nav } from 'react-bootstrap';
 import './article_browsing.css';
-import { useMutation } from '@apollo/client';
-import { ADD_ARTICLE } from '../../utils/mutations';
+import { useQuery,useMutation } from '@apollo/client';
+import { ADD_ARTICLE} from '../../utils/mutations';
+import { GET_ME } from '../../utils/queries';
 
 const Article = ({ article}) => {
+
   const [addArticle] = useMutation(ADD_ARTICLE)
 
+  const [userData, setUserData] = useState({});
+  const {data } = useQuery(GET_ME);
+
+  useEffect(() => {
+      const user = data?.me || {};
+      setUserData(user);
+  }, [data]);
+
+
   const handleSaveArticle = (article) => {
+    // Avoid saving the same article more than once
+    var alreadySaved = userData.savedArticles.filter(function(obj) {
+      return obj.url === article.url;
+    })
+    if (!alreadySaved.length)
+    {
     try {
         const variables = { articleDate: article.publishedAt, source: article.source.name,
            title: article.title, description: article.description, url: article.url }
@@ -18,9 +35,10 @@ const Article = ({ article}) => {
         });
     } catch (err) {
         console.log(err);
-
     }
+  } 
 };
+
   return (
   <li className="list-group-item px-2">
     <div className="d-flex align-items-end">

@@ -20,11 +20,11 @@ class Browsing extends Component {
         });
     };
 
+    // Return all articles related to economics ordeered by date published. 
     getArticles = () => {
     API.getArticles()
       .then(res =>{
         this.setState({ articles: res.data.articles}) 
-        //console.log(this.state.articles)
       })
       .catch(err => console.log(err));
   };
