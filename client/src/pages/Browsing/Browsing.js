@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Article from '../../components/Article_Browsing';
+import Article from '../../components/Article_browsing';
 
 import API from "../../utils/API";
 import './browsing.css'

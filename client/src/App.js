@@ -18,8 +18,10 @@ import Single from './pages/Single';
 
 const PORT = process.env.PORT || 3001;
 
-const graphqlPath = `http://localhost:${PORT}/graphql`;
+let graphqlPath = `http://localhost:${PORT}/graphql`;
 
+if (process.env.NODE_ENV === "production") {graphqlPath = "/graphql"}
+   
 const httpLink = createHttpLink({
   uri: graphqlPath,
 });
