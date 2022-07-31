@@ -3,15 +3,11 @@ import Article from '../../components/Article_Browsing';
 
 import API from "../../utils/API";
 import './browsing.css'
-import { useMutation } from '@apollo/client';
-import { ADD_ARTICLE } from '../../utils/mutations';
-
-//const [saveArticle, {error}] = useMutation(ADD_ARTICLE);
 
 class Browsing extends Component {
     state = {
-        articles: []
-    };
+        articles: [],
+    }
 
     componentDidMount() {
         this.getArticles();
@@ -28,12 +24,11 @@ class Browsing extends Component {
     API.getArticles()
       .then(res =>{
         this.setState({ articles: res.data.articles}) 
+        //console.log(this.state.articles)
       })
       .catch(err => console.log(err));
   };
 
-
-    
     render() {
         return (
             <div>
@@ -55,16 +50,10 @@ class Browsing extends Component {
                                             {this.state.articles.map(article => (
                                                 <Article
                                                 key={article.url}
-                                                title={article.title}
-                                                source={article.source}
-                                                url={article.url}
-                                                date={article.publishedAt}
-                                                description={article.description}
-                                                handleClick={this.saveArticle}
+                                                article={article}
                                                 />
                                             ))}
                                         </ul>
-                                    
                                     </div>
                                 </div>
                             </div>
