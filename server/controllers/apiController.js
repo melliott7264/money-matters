@@ -1,4 +1,4 @@
-const apiKey = process.env.apiKey
+const apiKey = process.env.APIKEY
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(apiKey);
 
