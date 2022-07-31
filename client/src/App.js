@@ -16,14 +16,16 @@ import Navbar from './components/Navbar';
 // added in for development - REMOVE TO DEPLOY
 import Single from './pages/Single';
 
-// const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
-// let graphqlPath = `http://localhost:${PORT}/graphql`;
+let graphqlPath = `http://localhost:${PORT}/graphql`;
 
-// if (process.env.NODE_ENV === "production") {graphqlPath = "/graphql"}
+if (process.env.NODE_ENV === 'production') {
+  graphqlPath = '/graphql';
+}
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: graphqlPath,
 });
 
 const authLink = setContext((_, { headers }) => {
