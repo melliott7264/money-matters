@@ -87,8 +87,16 @@ export const REMOVE_ARTICLE = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation addComment($articleId: ID!, $commentBody: String!) {
-    addComment(articleId: $articleId, commentBody: $commentBody) {
+  mutation addComment(
+    $articleId: ID!
+    $commentBody: String!
+    $username: String
+  ) {
+    addComment(
+      articleId: $articleId
+      commentBody: $commentBody
+      username: $username
+    ) {
       _id
       articleId
       commentBody

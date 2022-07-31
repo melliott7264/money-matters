@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
-import {
-  ADD_COMMENT,
-  REMOVE_COMMENT,
-  EDIT_COMMENT,
-} from '../../utils/mutations';
+import { ADD_COMMENT } from '../../utils/mutations';
 
 import './single.css';
 
@@ -19,7 +15,6 @@ const Single = ({ id }) => {
   // put in default id for testing - REMOVE FOR DEPLOYMENT
   if (!id) {
     id = '62e4057e8565cedb6f7b8887';
-    console.log('id : ' + id);
   }
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
@@ -28,8 +23,6 @@ const Single = ({ id }) => {
 
   // define callback functions for mutations
   const [addComment, { addError }] = useMutation(ADD_COMMENT);
-  const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
-  const [editComment, { editError }] = useMutation(EDIT_COMMENT);
 
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
@@ -49,7 +42,11 @@ const Single = ({ id }) => {
   const handleComment = async () => {
     try {
       const response = await addComment({
-        variables: { articleId: articleData._id, commentBody: commentData },
+        variables: {
+          articleId: articleData._id,
+          commentBody: commentData,
+          username: articleData.username,
+        },
       });
     } catch (err) {
       console.error(err);
@@ -82,23 +79,21 @@ const Single = ({ id }) => {
         <Row>
           <Form onSubmit={handleComment}>
             <Form.Group>
-              <Form.Label size="lg">Comment:</Form.Label>
+              <Form.Label>Comment on Article:</Form.Label>
               <Form.Control
                 as="textarea"
                 rows="3"
                 name="commentBody"
                 value={commentData}
-                // defaultValue="Comment on the article"
                 onChange={handleCommentChange}
-                size="lg"
               />
             </Form.Group>
 
-            <Button type="submit" variant="primary" size="lg">
+            <Button className="mt-2" type="submit" variant="primary">
               Add Comment
             </Button>
           </Form>
-          {/* <Comment /> */}
+          <Comment articleId={articleData._id} />
         </Row>
       </Row>
     </Container>

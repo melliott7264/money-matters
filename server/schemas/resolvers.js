@@ -154,9 +154,17 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     // add a comment to the specified article - user must be logged i
-    addComment: async (parent, { articleId, commentBody }, context) => {
+    addComment: async (
+      parent,
+      { articleId, commentBody, username },
+      context
+    ) => {
       if (context.user) {
-        commentData = await Comment.create({ articleId, commentBody });
+        commentData = await Comment.create({
+          articleId,
+          commentBody,
+          username,
+        });
 
         savedComment = await Article.findOneAndUpdate(
           { _id: articleId },
