@@ -12,13 +12,13 @@ const Comment = ({ articleId }) => {
   // set comment data state
   const [commentData, setComment] = useState();
   // set state for modal - false - closed
-  const [setModalData, setModal] = useState({ isOpen: false });
+  const [setModalData, setModal] = useState(false);
   // set state for comment edit
   const [editCommentData, setEditComment] = useState();
 
   // functions to open and close edit modal
-  const openModel = () => setModal({ isOpen: true });
-  const closeModel = () => setModal({ isOpen: false });
+  const openModal = () => setModal(true);
+  const closeModal = () => setModal(false);
 
   // define callback functions for mutations
   const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
@@ -50,10 +50,25 @@ const Comment = ({ articleId }) => {
   };
 
   // function to submit comment edit via EDIT_COMMENT mutation
-  const handleEditComment = (commentId, commentBody) => {};
+  // - passing commentId and using editCommentData from state for commentBody
+  const handleEditComment = async (commentId) => {
+    try {
+      const response = await editComment({
+        variables: {
+          id: commentId,
+          commentBody: editCommentData,
+        },
+        // window.location.reload(false);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  // functon to update setEditComment state while editing comment text
-  const handleCommentChange = (event) => {};
+  // functon to update setEditComment state while editing comment text - each change will be displayed
+  const handleCommentChange = (event) => {
+    setEditComment(event.target.value);
+  };
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -64,44 +79,49 @@ const Comment = ({ articleId }) => {
   }
 
   return commentData.map((comment) => (
-    <div key={comment._id}>
-      <div>
-        <hr style={{ height: '2px' }} />
+    <>
+      <div key={comment._id}>
+        <div>
+          <hr style={{ height: '2px' }} />
+        </div>
+        <div className="pt=2">
+          <span className="pr-4">{comment.postDate}</span>
+          <span className="p-4 float-right">{comment.username}</span>
+        </div>
+        <div>
+          <p className="pt-2">{comment.commentBody}</p>
+        </div>
+        <div>
+          <span className="btn-group float-right">
+            <button
+              className="btn text-danger"
+              onClick={() =>
+                handleDeleteComment(comment._id, comment.articleId)
+              }
+            >
+              Delete Comment
+            </button>
+            <button className="btn text-primary" onClick={openModal}>
+              Edit Comment
+            </button>
+          </span>
+        </div>
       </div>
-      <div className="pt=2">
-        <span className="pr-4">{comment.postDate}</span>
-        <span className="p-4 float-right">{comment.username}</span>
-      </div>
-      <div>
-        <p className="pt-2">{comment.commentBody}</p>
-      </div>
-      <div>
-        <span className="btn-group float-right">
-          <button
-            className="btn text-danger"
-            onClick={() => handleDeleteComment(comment._id, comment.articleId)}
-          >
-            Delete Comment
-          </button>
-          <button className="btn text-primary">Edit Comment</button>
-        </span>
-      </div>
-      <Modal>
+      <Modal show={setModalData} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
-        <Form
-          onSubmit={() => handleEditComment(comment._id, comment.commentBody)}
-        >
+        {/* Need to get commentId of current comment */}
+        <Form onSubmit={handleEditComment(comment._id)}>
           <Form.Group>
             <Form.Label>Comment Text:</Form.Label>
             <Form.Control
               as="textarea"
               rows="3"
               name="commentBody"
-              value={comment.commentBody}
-              onChange={() => handleCommentChange()}
+              value={editCommentData}
+              onChange={handleCommentChange}
             />
           </Form.Group>
 
@@ -110,10 +130,12 @@ const Comment = ({ articleId }) => {
           </Button>
         </Form>
         <Modal.Footer>
-          <Button variant="secondary">Close</Button>
+          <Button variant="secondary" onClick={closeModal}>
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   ));
 };
 
