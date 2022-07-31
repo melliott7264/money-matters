@@ -22,7 +22,7 @@ const Single = ({ id }) => {
     console.log('id : ' + id);
   }
   // use useState to update screen with article data
-  const [articleData, setArticleData] = useState({});
+  // const [articleData, setArticleData] = useState({});
   // get comment state
   const [commentData, setComment] = useState({});
 
@@ -36,20 +36,20 @@ const Single = ({ id }) => {
   const { loading, error, data } = useQuery(GET_ARTICLE, {
     variables: { id: id },
   });
-  // const { loading, error, data } = useQuery(GET_ARTICLES);
+
+  const article = data?.article || {};
 
   // runs once data has loaded
-  useEffect(() => {
-    const article = data?.article || {};
-    //sets userData displaying article information
-    setArticleData(article);
-    console.log('articleData: ' + JSON.stringify(articleData));
-  }, [data, articleData]);
+  // useEffect(() => {
+  //   const article = data?.article || {};
+  //   //sets userData displaying article information
+  //   setArticleData(article);
+  // }, [data]);
 
-  const handleComment = async (userId) => {
+  const handleComment = async (articleId) => {
     try {
       const response = await addComment({
-        variables: { articleId: userId, commentBody: commentData },
+        variables: { articleId: articleId, commentBody: commentData },
       });
     } catch (err) {
       console.error(err);
@@ -73,22 +73,22 @@ const Single = ({ id }) => {
     <Container>
       <Row>
         <Article
-          key={articleData.url}
-          title={articleData.title}
-          source={articleData.source}
-          url={articleData.url}
-          date={articleData.publishedAt}
-          description={articleData.description}
-          urlToImage={articleData.urlToImage}
+          key={article.url}
+          title={article.title}
+          source={article.source}
+          url={article.url}
+          date={article.publishedAt}
+          description={article.description}
         />
         <Row>
-          <Form onSubmit={handleComment(articleData.user._id)}>
+          {/* <Form onSubmit={handleComment(article._id)}>
             <Form.Row>
               <Col xs={12} md={8}>
+                <Form.Label>Comment</Form.Label>
                 <Form.Control
                   as="textarea"
+                  rows="3"
                   name="commentBody"
-                  value={articleData.comment.commentBody}
                   onChange={handleCommentChange}
                   size="lg"
                   placeholder="Comment on the article..."
@@ -100,7 +100,7 @@ const Single = ({ id }) => {
                 </Button>
               </Col>
             </Form.Row>
-          </Form>
+          </Form> */}
           {/* <Comment /> */}
         </Row>
       </Row>
