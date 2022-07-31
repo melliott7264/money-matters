@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Card,
-  CardColumns,
-} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
 import {
@@ -16,16 +8,21 @@ import {
   EDIT_COMMENT,
 } from '../../utils/mutations';
 
-import './comment.css';
+import './single.css';
 
 import Article from '../../components/Article';
 import Comment from '../../components/Comment';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
 
-const Single = ({ _id }) => {
+const Single = ({ id }) => {
+  // put in default id for testing - REMOVE FOR DEPLOYMENT
+  if (!id) {
+    id = '62e4057e8565cedb6f7b8887';
+    console.log('id : ' + id);
+  }
   // use useState to update screen with article data
-  const [articleData, setArticleData] = useState({});
+  // const [articleData, setArticleData] = useState({});
   // get comment state
   const [commentData, setComment] = useState({});
 
@@ -37,21 +34,22 @@ const Single = ({ _id }) => {
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
   const { loading, error, data } = useQuery(GET_ARTICLE, {
-    variables: { id: _id },
+    variables: { id: id },
   });
 
-  // runs once data has loaded
-  useEffect(() => {
-    const article = data?.article || {};
-    //sets userData displaying article information
-    setArticleData(article);
-    console.log('articleData: ' + articleData);
-  }, [data]);
+  const article = data?.article || {};
 
-  const handleComment = async (userId) => {
+  // runs once data has loaded
+  // useEffect(() => {
+  //   const article = data?.article || {};
+  //   //sets userData displaying article information
+  //   setArticleData(article);
+  // }, [data]);
+
+  const handleComment = async (articleId) => {
     try {
       const response = await addComment({
-        variables: { articleId: userId, commentBody: commentData },
+        variables: { articleId: articleId, commentBody: commentData },
       });
     } catch (err) {
       console.error(err);
@@ -75,22 +73,22 @@ const Single = ({ _id }) => {
     <Container>
       <Row>
         <Article
-          key={articleData.url}
-          title={articleData.title}
-          source={articleData.source}
-          url={articleData.url}
-          date={articleData.publishedAt}
-          description={articleData.description}
-          urlToImage={articleData.urlToImage}
+          key={article.url}
+          title={article.title}
+          source={article.source}
+          url={article.url}
+          date={article.publishedAt}
+          description={article.description}
         />
         <Row>
-          <Form onSubmit={handleComment(articleData.user._id)}>
+          {/* <Form onSubmit={handleComment(article._id)}>
             <Form.Row>
               <Col xs={12} md={8}>
+                <Form.Label>Comment</Form.Label>
                 <Form.Control
                   as="textarea"
+                  rows="3"
                   name="commentBody"
-                  value={articleData.comment.commentBody}
                   onChange={handleCommentChange}
                   size="lg"
                   placeholder="Comment on the article..."
@@ -102,8 +100,8 @@ const Single = ({ _id }) => {
                 </Button>
               </Col>
             </Form.Row>
-          </Form>
-          <Comment />
+          </Form> */}
+          {/* <Comment /> */}
         </Row>
       </Row>
     </Container>
