@@ -25,9 +25,12 @@ const Article = ({ article}) => {
     var alreadySaved = userData.savedArticles.filter(function(obj) {
       return obj.url === article.url;
     })
-    if (!alreadySaved.length)
-    {
     try {
+      // Provide feedback on wether a article is already saved or not. 
+      var button = document.getElementById(article.url);
+      button.innerHTML = '';
+      if (!alreadySaved.length)
+      {
         let description = ""
         if (article.description !== null) {description = article.description}
         const variables = { articleDate: article.publishedAt, source: article.source.name,
@@ -35,10 +38,13 @@ const Article = ({ article}) => {
         addArticle({
             variables,
         });
+        button.innerHTML = '<button disabled className="btn text-success">Saved</button>';
+      } else {
+        button.innerHTML = '<button disabled className="btn text-success">Already Saved</button>';
+      }
     } catch (err) {
         console.log(err);
     }
-  } 
 };
 
   return (
@@ -57,7 +63,7 @@ const Article = ({ article}) => {
           <p>Date: {moment(article.publishedAt).format('MMMM Do YYYY, h:mm a')}</p>
         </div>
         <div className="col-md-4 w-auto ms-auto">
-          <span className="btn-group float-right">
+          <span className="btn-group float-right" id={article.url}>
             <button onClick={() => handleSaveArticle(article)} className="btn text-danger">Save Article</button>
           </span>
         </div>
