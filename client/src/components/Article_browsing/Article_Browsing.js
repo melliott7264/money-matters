@@ -28,8 +28,10 @@ const Article = ({ article}) => {
     if (!alreadySaved.length)
     {
     try {
+        let description = ""
+        if (article.description !== null) {description = article.description}
         const variables = { articleDate: article.publishedAt, source: article.source.name,
-           title: article.title, description: article.description, url: article.url }
+           title: article.title, description: description, url: article.url }
         addArticle({
             variables,
         });
