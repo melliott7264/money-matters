@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Article from '../../components/Article/Article';
 import './main.css'
 
@@ -8,7 +7,10 @@ import { GET_ARTICLES } from '../../utils/queries';
 
 
 const Main = () =>  {
-    const [saveArticle ] = useQuery(GET_ARTICLES);
+    const [loading, saveArticle ] = useState({});
+    const [articleData, setArticleData] = useState({});
+
+    const { loading, error, data }
    
 
     return (
