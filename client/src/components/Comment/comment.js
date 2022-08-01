@@ -1,6 +1,6 @@
 // Display all comments for an article
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Row } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COMMENTS } from '../../utils/queries';
 import { REMOVE_COMMENT, EDIT_COMMENT } from '../../utils/mutations';
@@ -98,30 +98,37 @@ const Comment = ({ articleId }) => {
   return commentData.map((comment) => (
     <div key={comment._id}>
       <div>
-        <hr style={{ height: '2px' }} />
+        <hr
+          style={{
+            height: '5px',
+            opacity: '1',
+            color: 'darkseagreen',
+            background: 'darkseagreen',
+          }}
+        />
       </div>
-      <div className="pt=2">
-        <span className="pr-4">{comment.postDate}</span>
-        <span className="p-4 float-right">{comment.username}</span>
+      <div className="metaGrp">
+        <span className="postDate">{comment.postDate}</span>
+        <span className="username">{comment.username}</span>
+      </div>
+      <div className="commentBody">
+        <p>{comment.commentBody}</p>
       </div>
       <div>
-        <p className="pt-2">{comment.commentBody}</p>
-      </div>
-      <div>
-        <span className="btn-group float-right">
-          <button
-            className="btn text-danger"
-            onClick={() => handleDeleteComment(comment._id, comment.articleId)}
-          >
-            Delete Comment
-          </button>
-          <button
-            className="btn text-primary"
-            onClick={() => editIdData(comment._id, comment.commentBody)}
-          >
-            Edit Comment
-          </button>
-        </span>
+        <Button
+          className="btn editBtn"
+          variant="primary"
+          onClick={() => editIdData(comment._id, comment.commentBody)}
+        >
+          Edit Comment
+        </Button>
+        <Button
+          className="btn deleteBtn"
+          variant="danger"
+          onClick={() => handleDeleteComment(comment._id, comment.articleId)}
+        >
+          Delete Comment
+        </Button>
       </div>
       <Modal show={setModalData} onHide={closeModal}>
         <Modal.Header closeButton>
