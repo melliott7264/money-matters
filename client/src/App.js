@@ -13,6 +13,7 @@ import { setContext } from '@apollo/client/link/context';
 import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
 import Navbar from './components/Navbar';
+import Main from './pages/Main';
 
 const PORT = process.env.PORT || 3001;
 
@@ -47,6 +48,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
+            <Route exact path="/" component={Main}/>
           </Switch>
         </>
         <Footer />
