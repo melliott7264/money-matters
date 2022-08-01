@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import Auth from '../utils/auth';
+import Auth from '../utils/auth';
 import { removeArticleid, saveArticleIds } from '../../utils/localstorage';
-import { REMOVE_ARTICLE } from '../../utils/mutations';
+import { ADD_POST, REMOVE_ARTICLE } from '../../utils/mutations';
 import { GET_ME } from '../../utils/queries';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -19,26 +19,26 @@ import {
 
 const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
-    const 
+    const [AddPostArticle] = useMutation(ADD_POST);
     const [deleteArticle] = useMutation(REMOVE_ARTICLE);
 
-    const userDataLength = Object.keys(userData).length;
+    //User GraphQL query to collect currently logged in user data & authentication info 
+    const { loading , data } = useQuery(GET_ME);
 
-    const { data } = useQuery(GET_ME);
-
+    // Starts once the data is loaded
     useEffect(() => {
         const user = data?.me || {};
         setUserData(user);
     }, [data]);
-
+    //Verify if saved Article info for logged in user has finished loading
     if (userData.savedArticles?.length) {
-
+        //This creates a array of saved articleId from articles saved to database for sign-in User
         const savedArticles = userData.savedArticles.map(article => {
             return article.articleId;
         });
         saveArticleIds(savedArticles);
     }
-
+// Function that accepts the Article Id value as parameter and deletes the article from the database
     const handleDeleteArticle = async (articleId) => {
         try {
             const response = await deleteArticle({
@@ -51,10 +51,20 @@ const SavedNewsPage = () => {
             console.log(err);
 
         }
-    };
+    };  
+const handleAddPostArticle = async (articleId) => {
+    try {
+        const response = await AddPostArticle({
+            variable: { _id: articleId, post: true},
+        })
+    } catch (err) {
+        console.log(err);
+
+    }
+};
 
     // Failure to upload the data you will receive this message 
-    if (!userDataLength) {
+    if (loading) {
         return <div className="text-center">Loading...</div>;
     }
 
@@ -84,58 +94,27 @@ const SavedNewsPage = () => {
                                     description={article.description}
                                     urlToImage={article.urlToImage}
                                 >
-                                
+                                    <Button 
+                                           className="btn-block btn-primary"
+                                           onClick={() => handleAddPostArticle(article.articleId)}
+                                           >Add Post</Button>
                                 <Button
                                     className="btn-block btn-danger"
                                     onClick={() => handleDeleteArticle(article.articleId)}
                                 >Delete this Article!</Button>
                                 </Article>
-                            )))}
+                              )))}
+                          </ul>
+                      </div>
+                  </Row>
+              </Container>
+          </>
+      );
+  };
+                              
+export default SavedNewsPage;
+                                
                                     
 
-                        </ul>
-                    </div>
-                </Row>
-            </Container>
-        </>
-    );
-};
 
 
-export default SavedNewsPage;
-
- // Creating a function to handle saving a Article to the database
-//  const handleSaveArticle = async (articleId) => {
-//     // find the Article in `searchedArticles` state by the matching id
-//     const ArticleToSave = searchedArticles.find((article) => article.articleId === articleId);
-
-//     try {
-//       const response = await saveArticle({
-//         variables: { body: { ...ArticleToSave } },
-//       });
-
-//       // If the Article successfully saves to user's account, save Article id to state
-//       setSavedArticleIds([...savedArticleIds, ArticleToSave.articleId]);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-
-
-//If the user is login the save button Article option is shown 
-// {Auth.loggedIn() && (
-//     <Button
-//       disabled={savedArticlesIds?.some(
-//         (savedArticleId) => savedArticleId === article.articleId
-//       )}
-//       className="btn-block btn-info"
-//       onClick={() => handleSaveArticle(article.articleId)}
-//     >
-//       {savedArticleIds?.some(
-//         (savedArticleId) => savedArticleId === article.articleId
-//       )
-//         ? 'This Article has already been saved!'
-//         : 'Save this Article!'}
-//     </Button>
-//   )}
