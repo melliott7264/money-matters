@@ -30,13 +30,15 @@ const Single = ({ id }) => {
     variables: { id: id },
   });
 
-  // const article = data?.article || {};
-
   // runs once data has loaded
   useEffect(() => {
-    const article = data?.article || {};
-    //sets userData displaying article information
-    setArticleData(article);
+    if (!error) {
+      const article = data?.article || {};
+      //sets userData displaying article information
+      setArticleData(article);
+    } else {
+      console.error('There has been an error loading article data: ' + error);
+    }
   }, [data]);
 
   const handleComment = async () => {
@@ -93,7 +95,7 @@ const Single = ({ id }) => {
               Add Comment
             </Button>
           </Form>
-          <Comment articleId={articleData._id} />
+          <Comment key={articleData._id} articleId={articleData._id} />
         </Row>
       </Row>
     </Container>

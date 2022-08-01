@@ -15,10 +15,19 @@ const Comment = ({ articleId }) => {
   const [setModalData, setModal] = useState(false);
   // set state for comment edit
   const [editCommentData, setEditComment] = useState();
+  // set state to monitor/pass the comment _id for editing
+  const [editId, setEditId] = useState(' ');
 
   // functions to open and close edit modal
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
+
+  // function to open editing modal and pass the comment _id amd current commentBody
+  const editIdData = (id, commentBody) => {
+    setEditId(id);
+    setEditComment(commentBody);
+    openModal();
+  };
 
   // define callback functions for mutations
   const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
@@ -31,35 +40,43 @@ const Comment = ({ articleId }) => {
 
   // runs once data has loaded
   useEffect(() => {
-    const comment = data?.comments || [];
-    //sets commentData displaying comments
-    setComment(comment);
-  }, [data]);
+    if (!error) {
+      const comment = data?.comments || [];
+      //sets commentData displaying comments
+      setComment(comment);
+    } else {
+      console.error('There was an error loading comment data: ' + error);
+    }
+  }, [data, error]);
 
+  // This function takes the passed comment id and articleId and deletes the comment
   const handleDeleteComment = async (commentId, articleId) => {
     try {
       const response = await deleteComment({
         variables: { id: commentId, articleId: articleId },
       });
-      // had to use this because the change state didn't work
+
+      // need a page reload here
       window.location.reload(false);
-      // setComment([...commentData]);
     } catch (err) {
       console.error(err);
     }
   };
 
   // function to submit comment edit via EDIT_COMMENT mutation
-  // - passing commentId and using editCommentData from state for commentBody
-  const handleEditComment = async (commentId) => {
+  const handleEditComment = async (event) => {
+    // without the event.preventDefault() this function would be erroneously triggered each time the page refreshed
+    event.preventDefault();
+
     try {
+      // *** getting varibles to pass from state data: editId and editCommentData ***
       const response = await editComment({
         variables: {
-          id: commentId,
+          id: editId,
           commentBody: editCommentData,
         },
-        // window.location.reload(false);
       });
+      closeModal();
     } catch (err) {
       console.error(err);
     }
@@ -79,33 +96,32 @@ const Comment = ({ articleId }) => {
   }
 
   return commentData.map((comment) => (
-    <>
-      <div key={comment._id}>
-        <div>
-          <hr style={{ height: '2px' }} />
-        </div>
-        <div className="pt=2">
-          <span className="pr-4">{comment.postDate}</span>
-          <span className="p-4 float-right">{comment.username}</span>
-        </div>
-        <div>
-          <p className="pt-2">{comment.commentBody}</p>
-        </div>
-        <div>
-          <span className="btn-group float-right">
-            <button
-              className="btn text-danger"
-              onClick={() =>
-                handleDeleteComment(comment._id, comment.articleId)
-              }
-            >
-              Delete Comment
-            </button>
-            <button className="btn text-primary" onClick={openModal}>
-              Edit Comment
-            </button>
-          </span>
-        </div>
+    <div key={comment._id}>
+      <div>
+        <hr style={{ height: '2px' }} />
+      </div>
+      <div className="pt=2">
+        <span className="pr-4">{comment.postDate}</span>
+        <span className="p-4 float-right">{comment.username}</span>
+      </div>
+      <div>
+        <p className="pt-2">{comment.commentBody}</p>
+      </div>
+      <div>
+        <span className="btn-group float-right">
+          <button
+            className="btn text-danger"
+            onClick={() => handleDeleteComment(comment._id, comment.articleId)}
+          >
+            Delete Comment
+          </button>
+          <button
+            className="btn text-primary"
+            onClick={() => editIdData(comment._id, comment.commentBody)}
+          >
+            Edit Comment
+          </button>
+        </span>
       </div>
       <Modal show={setModalData} onHide={closeModal}>
         <Modal.Header closeButton>
@@ -113,7 +129,8 @@ const Comment = ({ articleId }) => {
         </Modal.Header>
         <Modal.Body></Modal.Body>
         {/* Need to get commentId of current comment */}
-        <Form onSubmit={handleEditComment(comment._id)}>
+        {/* <Form> */}
+        <Form onSubmit={handleEditComment}>
           <Form.Group>
             <Form.Label>Comment Text:</Form.Label>
             <Form.Control
@@ -124,7 +141,6 @@ const Comment = ({ articleId }) => {
               onChange={handleCommentChange}
             />
           </Form.Group>
-
           <Button className="mt-2" type="submit" variant="primary">
             Submit Changes
           </Button>
@@ -135,7 +151,7 @@ const Comment = ({ articleId }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   ));
 };
 
