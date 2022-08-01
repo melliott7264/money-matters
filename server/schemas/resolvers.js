@@ -91,16 +91,32 @@ const resolvers = {
 
       return { token, user };
     },
+
+    // Mark article as a post(public) by changing post to true
+    postArticle: async (parent, { _id, post }, context) => {
+      if (context.user) {
+        const articleData = await Article.findOneAndUpdate(
+          { _id: _id },
+          { post: post },
+          { new: true }
+        );
+
+        return articleData;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+
     // Save article to logged in user
     saveArticle: async (
       parent,
-      { articleDate, source, title, description, url },
+      { post, articleDate, source, title, description, url },
       context
     ) => {
       if (context.user) {
         const articleData = await Article.create({
           username: context.user.username,
           userId: context.user._id,
+          post: post,
           articleDate: articleDate,
           source: source,
           title: title,
@@ -138,9 +154,17 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     // add a comment to the specified article - user must be logged i
-    addComment: async (parent, { articleId, commentBody }, context) => {
+    addComment: async (
+      parent,
+      { articleId, commentBody, username },
+      context
+    ) => {
       if (context.user) {
-        commentData = await Comment.create({ articleId, commentBody });
+        commentData = await Comment.create({
+          articleId,
+          commentBody,
+          username,
+        });
 
         savedComment = await Article.findOneAndUpdate(
           { _id: articleId },

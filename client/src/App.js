@@ -13,11 +13,19 @@ import { setContext } from '@apollo/client/link/context';
 import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
 import Navbar from './components/Navbar';
-import SavedNewsPage from './pages/SavedNewsPage/SavedNewsPage';
+// added in for development - REMOVE TO DEPLOY
+import Single from './pages/Single';
+
+const PORT = process.env.PORT || 3001;
+
+let graphqlPath = `http://localhost:${PORT}/graphql`;
+
+if (process.env.NODE_ENV === 'production') {
+  graphqlPath = '/graphql';
+}
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:3001/graphql',
-  uri: '/graphql',
+  uri: graphqlPath,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -43,7 +51,8 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
-            
+            {/* added in for development - REMOVE FOR DEPLOYMENT */}
+            {/* <Route exact path="/single" component={Single} /> */}
           </Switch>
         </>
         <Footer />

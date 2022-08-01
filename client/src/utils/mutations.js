@@ -28,6 +28,24 @@ export const ADD_USER = gql`
   }
 `;
 
+export const ADD_POST = gql`
+  mutation postArticle($_id: ID!, $post: Boolean!) {
+    postArticle(_id: $_id, post: $post) {
+      _id
+      userId
+      post
+      articleDate
+      postDate
+      source
+      title
+      description
+      url
+      username
+      commentCount
+    }
+  }
+`;
+
 export const ADD_ARTICLE = gql`
   mutation saveArticle(
     $articleDate: String!
@@ -44,6 +62,8 @@ export const ADD_ARTICLE = gql`
       url: $url
     ) {
       _id
+      userId
+      post
       articleDate
       postDate
       source
@@ -51,6 +71,7 @@ export const ADD_ARTICLE = gql`
       description
       url
       username
+      commentCount
     }
   }
 `;
@@ -66,8 +87,16 @@ export const REMOVE_ARTICLE = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation addComment($articleId: ID!, $commentBody: String!) {
-    addComment(articleId: $articleId, commentBody: $commentBody) {
+  mutation addComment(
+    $articleId: ID!
+    $commentBody: String!
+    $username: String
+  ) {
+    addComment(
+      articleId: $articleId
+      commentBody: $commentBody
+      username: $username
+    ) {
       _id
       articleId
       commentBody
@@ -87,8 +116,8 @@ export const REMOVE_COMMENT = gql`
 `;
 
 export const EDIT_COMMENT = gql`
-  mutation editComment($_id: ID!, $commentBody: String!) {
-    editComment(_id: $_Id, commentBody: $commentBody) {
+  mutation editComment($id: ID!, $commentBody: String!) {
+    editComment(_id: $id, commentBody: $commentBody) {
       _id
       articleId
       commentBody

@@ -19,6 +19,7 @@ import {
 
 const SavedNewsPage = () => {
     const [userData, setUserData] = useState({});
+    const 
     const [deleteArticle] = useMutation(REMOVE_ARTICLE);
 
     const userDataLength = Object.keys(userData).length;

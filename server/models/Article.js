@@ -8,6 +8,10 @@ const articleSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
     },
+    post: {
+      type: Boolean,
+      default: false,
+    },
     articleDate: {
       type: Date,
     },
