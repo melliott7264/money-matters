@@ -11,9 +11,9 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark'>
-        <Container fluid className="justify-content-center" >
-        <Navbar.Brand style={{ color: 'lightgreen' }} href="/">
+      <Navbar bg="dark" variant="dark">
+        <Container fluid className="justify-content-center">
+          <Navbar.Brand style={{ color: 'lightgreen' }} href="/">
             <img
               alt=""
               src="/logo.svg"
@@ -24,49 +24,55 @@ const AppNavbar = () => {
             />{' '}
             Money Matters
           </Navbar.Brand>
-            <Nav className='ml-auto justify-content-end'>
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link style={{ color: 'green' }} as={Link} to='/saved'>
-                    Your Saved News
-                  </Nav.Link>
-                  <Nav.Link style={{ color: 'green' }} as={Link} to='/browse'>
-                    Browse Latest News
-                  </Nav.Link>
-                  <Nav.Link style={{ color: 'green' }} onClick={Auth.logout}>
-                    Logout
-                  </Nav.Link>
-                </>
-              ) : (
-                <Nav.Link style={{ color: 'green' }} onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
+          <Nav className="ml-auto justify-content-end">
+            {Auth.loggedIn() ? (
+              <>
+                <Nav.Link style={{ color: 'white' }} as={Link} to="/saved">
+                  Your Saved News
+                </Nav.Link>
+                <Nav.Link style={{ color: 'white' }} as={Link} to="/browse">
+                  Browse Latest News
+                </Nav.Link>
+                <Nav.Link style={{ color: 'white' }} onClick={Auth.logout}>
+                  Logout
+                </Nav.Link>
+              </>
+            ) : (
+              <Nav.Link
+                style={{ color: 'white' }}
+                onClick={() => setShowModal(true)}
+              >
+                Login/Sign Up
+              </Nav.Link>
+            )}
+          </Nav>
         </Container>
       </Navbar>
       <Modal
-        size='md'
+        size="md"
         show={showModal}
         onHide={() => setShowModal(false)}
-        aria-labelledby='signup-modal'>
-        <Tab.Container defaultActiveKey='login'>
+        aria-labelledby="signup-modal"
+      >
+        <Tab.Container defaultActiveKey="login">
           <Modal.Header className="border-bottom-0" closeButton>
-            <Modal.Title id='signup-modal'>
+            <Modal.Title id="signup-modal">
               <Nav fill variant="tabs">
                 <Nav.Item>
-                  <Nav.Link eventKey='login'>Login</Nav.Link>
+                  <Nav.Link eventKey="login">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
+                  <Nav.Link eventKey="signup">Sign Up</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Tab.Content>
-              <Tab.Pane eventKey='login'>
+              <Tab.Pane eventKey="login">
                 <Login handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
-              <Tab.Pane eventKey='signup'>
+              <Tab.Pane eventKey="signup">
                 <SignUp handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
             </Tab.Content>

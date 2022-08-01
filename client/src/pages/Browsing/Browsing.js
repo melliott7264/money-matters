@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
-import Article from '../../components/Article';
+import Article from '../../components/Article_browsing';
 
+import API from "../../utils/API";
 import './browsing.css'
-import axios from "axios";
-
-// Need to store this in a .env file in the future. 
-const api_key = '756752a60f5b4b0da01c1c635aebe0ed';
 
 class Browsing extends Component {
     state = {
-        articles: []
-    };
-    
+        articles: [],
+    }
+
+    // return all articles after rendering
+    componentDidMount() {
+        this.getArticles();
+      }
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -19,17 +21,14 @@ class Browsing extends Component {
         });
     };
 
-    getArticles() {
-        axios
-          .get(
-            "https://newsapi.org/v2/top-headlines?country=us&category=business&sortBy=publishedAt&pageSize=100&apiKey=" + api_key
-          )
-          .then(res => {
-              const articles = res.data.articles;
-              //console.log(articles);
-              this.setState({ articles: articles });
-            })
-      }
+    // return all articles related to economics ordeered by date published. 
+    getArticles = () => {
+    API.getArticles()
+      .then(res =>{
+        this.setState({ articles: res.data.articles}) 
+      })
+      .catch(err => console.log(err));
+  };
 
     render() {
         return (
@@ -38,9 +37,6 @@ class Browsing extends Component {
                     <h2 className="text-center">
                         Get the Latest Economy News Here
                     </h2>
-                    <div className="text-center">
-                        <button className="btn btn-success btn-md mt-1" onClick={() => this.getArticles()}>Get News</button>
-                    </div>
                 </div>
                 <div className="container">
                     <div className="row">
@@ -55,16 +51,10 @@ class Browsing extends Component {
                                             {this.state.articles.map(article => (
                                                 <Article
                                                 key={article.url}
-                                                title={article.title}
-                                                source={article.source}
-                                                url={article.url}
-                                                date={article.publishedAt}
-                                                description={article.description}
-                                                urlToImage={article.urlToImage}
+                                                article={article}
                                                 />
                                             ))}
                                         </ul>
-                                    
                                     </div>
                                 </div>
                             </div>

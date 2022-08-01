@@ -6,6 +6,7 @@ import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
 
 const Login = () => {
+  // initial form state
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -20,6 +21,7 @@ const Login = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    // allow submission only after all fields are filled
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -38,6 +40,7 @@ const Login = () => {
       setShowAlert(true);
     }
 
+    // empty form fields after submission
     setUserFormData({
       username: "",
       email: "",
