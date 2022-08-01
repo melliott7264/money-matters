@@ -135,8 +135,6 @@ const Comment = ({ articleId }) => {
           <Modal.Title>Edit Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
-        {/* Need to get commentId of current comment */}
-        {/* <Form> */}
         <Form onSubmit={handleEditComment}>
           <Form.Group>
             <Form.Label>Comment Text:</Form.Label>
