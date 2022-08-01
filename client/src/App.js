@@ -52,7 +52,7 @@ function App() {
           <Switch>
             <Route exact path="/browse" component={Browsing} />
             {/* added in for development - REMOVE FOR DEPLOYMENT */}
-            <Route exact path="/single" component={Single} />
+            {/* <Route exact path="/single" component={Single} /> */}
           </Switch>
         </>
         <Footer />

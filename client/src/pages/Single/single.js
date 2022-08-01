@@ -13,9 +13,9 @@ import Comment from '../../components/Comment';
 
 const Single = ({ id }) => {
   // put in default id for testing - REMOVE FOR DEPLOYMENT
-  if (!id) {
-    id = '62e4057e8565cedb6f7b8887';
-  }
+  // if (!id) {
+  //   id = '62e4057e8565cedb6f7b8887';
+  // }
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
   // get comment state
