@@ -54,17 +54,15 @@ const SavedNewsPage = () => {
 
     // Failure to upload the data you will receive this message 
     if (!userDataLength) {
-        return <div>Loading...</div>;
+        return <div className="text-center">Loading...</div>;
     }
 
     // Returns the saved articles
     return (
         <>
-
             <Container>
                 <span className="card-title text-center">Saved Articles</span>
             </Container>
-
             <Container>
                 <h1>
                     {userData.savedArticles?.length
@@ -75,7 +73,7 @@ const SavedNewsPage = () => {
                 <Row>
                     <div className="panel-body">
                         <ul className="list-group">
-                            {this.state.articles.map(article => (
+                            {userData.savedArticles?.map((article => (
                                 <Article
                                     key={article.url}
                                     title={article.title}
@@ -84,12 +82,15 @@ const SavedNewsPage = () => {
                                     date={article.publishedAt}
                                     description={article.description}
                                     urlToImage={article.urlToImage}
-                                    />
-                                    ))}
-                                    <Button
-                                        className="btn-block btn-danger"
-                                        onClick={() => handleDeleteArticle(Article.articleId)}
-                                    >Delete this Article!</Button>
+                                >
+                                
+                                <Button
+                                    className="btn-block btn-danger"
+                                    onClick={() => handleDeleteArticle(article.articleId)}
+                                >Delete this Article!</Button>
+                                </Article>
+                            )))}
+                                    
 
                         </ul>
                     </div>

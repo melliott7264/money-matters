@@ -43,6 +43,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
+            <SavedNewsPage/>
           </Switch>
         </>
         <Footer />
