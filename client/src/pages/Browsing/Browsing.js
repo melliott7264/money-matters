@@ -9,6 +9,7 @@ class Browsing extends Component {
         articles: [],
     }
 
+    // return all articles after rendering
     componentDidMount() {
         this.getArticles();
       }
@@ -20,7 +21,7 @@ class Browsing extends Component {
         });
     };
 
-    // Return all articles related to economics ordeered by date published. 
+    // return all articles related to economics ordeered by date published. 
     getArticles = () => {
     API.getArticles()
       .then(res =>{

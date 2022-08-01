@@ -14,6 +14,7 @@ const Article = ({ article}) => {
   const [userData, setUserData] = useState({});
   const {data } = useQuery(GET_ME);
 
+  // save user data after rendering 
   useEffect(() => {
       const user = data?.me || {};
       setUserData(user);
@@ -21,23 +22,26 @@ const Article = ({ article}) => {
 
 
   const handleSaveArticle = (article) => {
-    // Avoid saving the same article more than once
+    // avoid saving the same article more than once
     var alreadySaved = userData.savedArticles.filter(function(obj) {
       return obj.url === article.url;
     })
     try {
-      // Provide feedback on wether a article is already saved or not. 
+      // provide feedback on wether a article is already saved or not. 
       var button = document.getElementById(article.url);
       button.innerHTML = '';
+      // avoid saving a duplicate article
       if (!alreadySaved.length)
       {
         let description = ""
+        // allow saving of articles with null descriptions
         if (article.description !== null) {description = article.description}
         const variables = { articleDate: article.publishedAt, source: article.source.name,
            title: article.title, description: description, url: article.url }
         addArticle({
             variables,
         });
+        // button feedback
         button.innerHTML = '<button disabled className="btn text-success">Saved</button>';
       } else {
         button.innerHTML = '<button disabled className="btn text-success">Already Saved</button>';
@@ -46,7 +50,7 @@ const Article = ({ article}) => {
         console.log(err);
     }
 };
-
+  // return article card for the browsing page
   return (
   <li className="list-group-item px-2">
     <div className="d-flex align-items-end">
