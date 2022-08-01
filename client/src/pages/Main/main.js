@@ -28,7 +28,7 @@ const Main = () => {
       // Store into an array for filtering and sorting
       var articleCopy = [...article]
       // Only show saved articles with the post boolean set to true
-      articleCopy = articleCopy.filter(a => a.post === false)
+      articleCopy = articleCopy.filter(a => a.post === true)
       // Sort by date in descending order
       articleCopy.sort((a,b) => {return a.articleDate - b.articleDate}).reverse();
       setArticleData(articleCopy);
