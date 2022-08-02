@@ -82,7 +82,6 @@ function App() {
             <Switch>
               <Route exact path="/browse" component={Browsing} />
               <Route exact path="/single" component={Single} />
-              <Route exact path="/comment" component={Comment} />
               <Route exact path="/saved" component={SavedNewsPage} />
               <Route exact path="/" component={Main} />
             </Switch>

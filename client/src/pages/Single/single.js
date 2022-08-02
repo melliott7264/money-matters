@@ -3,7 +3,6 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
-import { useLocation } from 'react-router-dom';
 
 import './single.css';
 
@@ -15,11 +14,6 @@ import { useGlobalState } from '../../App';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
 const Single = () => {
-  // had to use useLocation to handle props passing from main.js to single.js through a Link - still was not persistent through comment CRUD
-  // const location = useLocation();
-  // const { article_id } = location.props;
-  // const id = article_id;
-
   // *** Using global state to provide the article_id ***
   // Call React hook for global state
   const [state, dispatch] = useGlobalState();
@@ -62,12 +56,6 @@ const Single = () => {
           username: articleData.username,
         },
       });
-      console.log(
-        'comment had been added. articleData._id is: ' +
-          articleData._id +
-          ' id is: ' +
-          id
-      );
     } catch (err) {
       console.error(err);
     }

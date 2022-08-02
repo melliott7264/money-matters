@@ -1,6 +1,6 @@
 // Display all comments for an article
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form, Row } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COMMENTS } from '../../utils/queries';
 import { REMOVE_COMMENT, EDIT_COMMENT } from '../../utils/mutations';
@@ -17,10 +17,18 @@ const Comment = ({ articleId }) => {
   const [editCommentData, setEditComment] = useState();
   // set state to monitor/pass the comment _id for editing
   const [editId, setEditId] = useState(' ');
+  // set state to display message
+  const [message, setMessage] = useState(' ');
+  // set state to control message modal
+  const [setMessageModalData, setMessageModal] = useState(false);
 
   // functions to open and close edit modal
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
+
+  // functions to open and close message modal
+  const openMessageModal = () => setMessageModal(true);
+  const closeMessageModal = () => setMessageModal(false);
 
   // function to open editing modal and pass the comment _id amd current commentBody
   const editIdData = (id, commentBody) => {
@@ -49,6 +57,14 @@ const Comment = ({ articleId }) => {
     }
   }, [data, error]);
 
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    return <h2>Error! ${error.message}</h2>;
+  }
+
   // This function takes the passed comment id and articleId and deletes the comment
   const handleDeleteComment = async (commentId, articleId) => {
     try {
@@ -57,6 +73,8 @@ const Comment = ({ articleId }) => {
       });
 
       // need a page reload here
+      setMessage(`Comment ${commentId} was deleted`);
+      openMessageModal();
     } catch (err) {
       console.error(err);
     }
@@ -86,77 +104,86 @@ const Comment = ({ articleId }) => {
     setEditComment(event.target.value);
   };
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+  return renderPage();
 
-  if (error) {
-    return <h2>Error! ${error.message}</h2>;
-  }
+  function renderPage() {
+    return commentData.map((comment) => (
+      <div key={comment._id}>
+        <div>
+          <hr
+            style={{
+              height: '5px',
+              opacity: '1',
+              color: 'darkseagreen',
+              background: 'darkseagreen',
+            }}
+          />
+        </div>
+        <div className="metaGrp">
+          <span className="postDate">{comment.postDate}</span>
+          <span className="username">{comment.username}</span>
+        </div>
+        <div className="commentBody">
+          <p>{comment.commentBody}</p>
+        </div>
+        <div>
+          <Button
+            className="btn editBtn"
+            variant="primary"
+            onClick={() => editIdData(comment._id, comment.commentBody)}
+          >
+            Edit Comment
+          </Button>
 
-  return commentData.map((comment) => (
-    <div key={comment._id}>
-      <div>
-        <hr
-          style={{
-            height: '5px',
-            opacity: '1',
-            color: 'darkseagreen',
-            background: 'darkseagreen',
-          }}
-        />
-      </div>
-      <div className="metaGrp">
-        <span className="postDate">{comment.postDate}</span>
-        <span className="username">{comment.username}</span>
-      </div>
-      <div className="commentBody">
-        <p>{comment.commentBody}</p>
-      </div>
-      <div>
-        <Button
-          className="btn editBtn"
-          variant="primary"
-          onClick={() => editIdData(comment._id, comment.commentBody)}
-        >
-          Edit Comment
-        </Button>
-        <Button
-          className="btn deleteBtn"
-          variant="danger"
-          onClick={() => handleDeleteComment(comment._id, comment.articleId)}
-        >
-          Delete Comment
-        </Button>
-      </div>
-      <Modal show={setModalData} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Comment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body></Modal.Body>
-        <Form onSubmit={handleEditComment}>
-          <Form.Group>
-            <Form.Label>Comment Text:</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows="3"
-              name="commentBody"
-              value={editCommentData}
-              onChange={handleCommentChange}
-            />
-          </Form.Group>
-          <Button className="mt-2" type="submit" variant="primary">
-            Submit Changes
+          <Button
+            className="btn deleteBtn"
+            variant="danger"
+            onClick={() => handleDeleteComment(comment._id, comment.articleId)}
+          >
+            Delete Comment
           </Button>
-        </Form>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  ));
+        </div>
+        <Modal show={setModalData} onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Comment</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleEditComment}>
+              <Form.Group>
+                <Form.Label>Comment Text:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  name="commentBody"
+                  value={editCommentData}
+                  onChange={handleCommentChange}
+                />
+              </Form.Group>
+              <Button className="mt-2" type="submit" variant="primary">
+                Submit Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={setMessageModalData} onHide={closeMessageModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Messages</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{message}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeMessageModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    ));
+  }
 };
 
 export default Comment;
