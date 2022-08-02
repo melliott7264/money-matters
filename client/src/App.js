@@ -76,7 +76,7 @@ function App() {
   return (
     // <GlobalStateProvider>
     <ApolloProvider client={client}>
-      <Router>
+      <Router forceRefresh={true}>
         <>
           <Navbar />
           <Switch>
@@ -89,7 +89,7 @@ function App() {
         <Footer />
       </Router>
     </ApolloProvider>
-    // </GlobalStateProvider>
+    //</GlobalStateProvider>
   );
 }
 

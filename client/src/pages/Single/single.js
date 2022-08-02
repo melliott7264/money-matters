@@ -81,11 +81,7 @@ const Single = ({ id }) => {
         <Row>
           <Article
             key={articleData.url}
-            title={articleData.title}
-            source={articleData.source}
-            url={articleData.url}
-            date={articleData.publishedAt}
-            description={articleData.description}
+            article={articleData}
           />
           <Row>
             <Form onSubmit={handleComment}>
