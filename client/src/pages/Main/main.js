@@ -154,8 +154,7 @@ const Main = () => {
                                 <Nav.Link
                                   as={Link}
                                   to={{
-                                    pathname: '/single',
-                                    props: { id: article._id },
+                                    pathname: `/single/:${article._id}`,
                                   }}
                                 >
                                   <p className="text-primary">

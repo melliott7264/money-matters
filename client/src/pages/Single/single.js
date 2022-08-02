@@ -14,7 +14,9 @@ import Comment from '../../components/Comment';
 import { useGlobalState } from '../../App';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
-const Single = ({ useParams }) => {
+const Single = () => {
+  // get id from params passed in URL
+  const { id } = useParams();
   // *** Using global state to provide the article_id ***
   // Call React hook for global state
   // const [state, dispatch] = useGlobalState();
