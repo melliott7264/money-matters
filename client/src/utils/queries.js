@@ -102,6 +102,7 @@ export const GET_ME = gql`
       savedArticles {
         _id
         articleDate
+        post
         postDate
         source
         title
