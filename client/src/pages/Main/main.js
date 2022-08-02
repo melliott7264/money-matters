@@ -1,56 +1,151 @@
 import React, { useEffect, useState } from 'react';
-import Article from '../../components/Article/Article';
+//import Article from '../../components/Article/Article';
 import './main.css'
 import { useQuery, useMutation} from '@apollo/client';
 import { GET_ARTICLES, GET_ME } from '../../utils/queries';
+import { ADD_ARTICLE} from '../../utils/mutations';
+import { Globe } from 'react-bootstrap-icons';
+import { Nav } from 'react-bootstrap';
+import moment from 'moment';
+import Auth from '../../utils/auth';
+import { Link } from 'react-router-dom';
 
-import {
-  Container,
-  Row,
-  
-} from 'react-bootstrap';
+
 
 
 const Main = () =>  {
-    const [loading, saveArticle ] = useState({});
     const [articleData, setArticleData] = useState({});
+    const [userData, setUserData] = useState({});
+    const [add_ARTICLE] = useMutation(ADD_ARTICLE)
 
-    const { loading, error, data }
-   
+    const {data:articledata} = useQuery(GET_ARTICLES);
+    const {data:userdata} = useQuery(GET_ME);
 
-    
-  
-    return (
-      <Container>
-        <Row>
-          <Article
-            key={articleData.url}
-            title={articleData.title}
-            source={articleData.source}
-            url={articleData.url}
-            date={articleData.publishedAt}
-            description={articleData.description}
-          />
-          <Row>
-          <div className="flex-row justify-space-between">
-          {saveArticle && (
-            <div className="col-12 mb-3">
-              <Article />
-            </div>
-          )}
-          <Single _id = {Article}/>
-         
-     
+    const loggedIn = Auth.loggedIn();
+
+    useEffect(() => {
+      var article = articleData?.articles || [];
+      var articleCopy = [...article]
+      articleCopy = articleCopy.filter(a => a.post === false)
+
+      articleCopy.sort((a,b) => { return a.articleDate - b.articleDate}).reverse();
+      setArticleData(articleCopy);
+
+      const user = userdata?.me || {};
+      setUserData(user);
+    }, [articleData,userData]);
+
+    const handleSaveArticle = (article) => {
+      var alreadySaved = userData.saveArticle.filter(function(obj) {
+        return obj.url === article.url;
+      })
+      try {
+        var button = document.getElementById(article._id);
+        button.innerHTML = '';
+
+        if(!alreadySaved.length)
+        {
+          let description = ""
+
+          if(article.description !== null) {description = article.description}
+          const variables = { articleData: article.publishedAt, source: article.source.name,
+          title: article.title, description:description, url: article.url }
+          addArticle({
+            variables
+          });
+
+          button.innerHTML = '<button disabled className="btn text-success">Saved</button>';
+        }else {
+          button.innerHTML = 'button disabled className="btn text-success">Already Saved</button>';
+        }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+ // check if logged in 
+ if (!loggedIn) {
+  return ( 
+    <div className="jumbotron">
+        <h2 className="text-center">
+            Login to See Posts
+        </h2>
+    </div>)
+  }
+else{
+// check for post content
+if (!articleData.length){
+  return (
+  <div className="jumbotron">
+      <h2 className="text-center">
+          Go to Your Saved News Page to Create a Post
+      </h2>
+  </div>)
+}
+return (
+    <div>
+        <div className="jumbotron">
+            <h2 className="text-center">
+                Discuss the Latest Economy News Here
+            </h2>
         </div>
-  </Row>
-  </Row>
-  </Container>
-
+        <div className="container">
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="card border-success mb-3">
+                        <div className="card-header text-center text-white bg-success border-success">
+                            <span className="card-title">Posted Articles</span>
+                        </div>
+                    <div className="card-body">
+                        <div className="panel-body">
+                                <ul className= "list-group">
+                                    {articleData.map(article => (
+                                      <li key={article._id} className="list-group-item px-2">
+                                        <div className='row'>
+                                          <div className='col-md-7'>
+                                            <p>Posted: {article.postDate} by {article.username} </p>
+                                          </div>
+                                          <div className='col-md-5'>
+                                            <p>Source: {article.source}</p>
+                                          </div>
+                                        </div>
+                                      <div className="d-flex align-items-end">
+                                        <h4>{article.title}</h4>
+                                        <Nav.Link href={article.url}>
+                                          <Globe className="mb-3" color="royalblue" size={22} />
+                                        </Nav.Link>
+                                      </div>
+                                      <p> {article.description}</p>
+                                      <div>
+                                        <div className="row g-0 align-middle">
+                                          <div className="col-md-3 mt-2">
+                                            <Nav.Link as={Link} to={{
+                                              pathname:'/single',
+                                              props: {_id: article._id},
+                                            }}>
+                                            <p className='text-primary'>Comments: {article.commentCount}</p>
+                                            </Nav.Link>
+                                          </div>
+                                          <div className="col-md-5 mt-2">
+                                            <p>Published: {moment(Number(article.articleDate)).format('MMMM Do YYYY, h:mm a')}</p>
+                                          </div>
+                                          <div className="col-md-3 w-auto ms-auto">
+                                            <span className="btn-group float-right" id={article._id}>
+                                              <button onClick={() => handleSaveArticle(article)} className="btn text-danger">Save Article</button>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 );
-
-  
-
-
-};
-
+}
+}
 export default Main;
