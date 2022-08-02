@@ -3,6 +3,7 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
+import { useParams } from 'react-router-dom';
 
 import './single.css';
 
@@ -13,7 +14,7 @@ import Comment from '../../components/Comment';
 import { useGlobalState } from '../../App';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
-const Single = ({ id }) => {
+const Single = ({ useParams }) => {
   // *** Using global state to provide the article_id ***
   // Call React hook for global state
   // const [state, dispatch] = useGlobalState();
@@ -79,10 +80,7 @@ const Single = ({ id }) => {
     return (
       <Container>
         <Row>
-          <Article
-            key={articleData.url}
-            article={articleData}
-          />
+          <Article key={articleData.url} article={articleData} />
           <Row>
             <Form onSubmit={handleComment}>
               <Form.Group>
