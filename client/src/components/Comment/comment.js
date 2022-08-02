@@ -57,7 +57,6 @@ const Comment = ({ articleId }) => {
       });
 
       // need a page reload here
-      window.location.reload(false);
     } catch (err) {
       console.error(err);
     }

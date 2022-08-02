@@ -16,7 +16,6 @@ import Main from './pages/Main';
 import SavedNewsPage from './pages/SavedNewsPage/SavedNewsPage';
 import Navbar from './components/Navbar';
 import Single from './pages/Single';
-import { Save } from 'react-bootstrap-icons';
 
 const PORT = process.env.PORT || 3001;
 
@@ -45,24 +44,53 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+//*** Setup global state to share artical id between Main and Single ***
+const defaultGlobalState = {
+  article_id: '',
+};
+
+const globalStateContext = React.createContext(defaultGlobalState);
+const dispatchStateContext = React.createContext(undefined);
+
+const GlobalStateProvider = ({ children }) => {
+  const [state, dispatch] = React.useReducer(
+    (state, newValue) => ({ ...state, ...newValue }),
+    defaultGlobalState
+  );
+  return (
+    <globalStateContext.Provider value={state}>
+      <dispatchStateContext.Provider value={dispatch}>
+        {children}
+      </dispatchStateContext.Provider>
+    </globalStateContext.Provider>
+  );
+};
+
+export const useGlobalState = () => [
+  React.useContext(globalStateContext),
+  React.useContext(dispatchStateContext),
+];
+
+//*** End global state config ***
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <>
-          <Navbar />
-          <Switch>
-            <Route exact path="/browse" component={Browsing} />
-            <Route exact path="/single" component={Single}/>
-            <Route exact path="/saved" component={SavedNewsPage}/>
-            <Route exact path="/" component={Main}/>
-            {/* added in for development - REMOVE FOR DEPLOYMENT */}
-            {/* <Route exact path="/single" component={Single} /> */}
-          </Switch>
-        </>
-        <Footer />
-      </Router>
-    </ApolloProvider>
+    <GlobalStateProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <>
+            <Navbar />
+            <Switch>
+              <Route exact path="/browse" component={Browsing} />
+              <Route exact path="/single" component={Single} />
+              <Route exact path="/comment" component={Comment} />
+              <Route exact path="/saved" component={SavedNewsPage} />
+              <Route exact path="/" component={Main} />
+            </Switch>
+          </>
+          <Footer />
+        </Router>
+      </ApolloProvider>
+    </GlobalStateProvider>
   );
 }
 

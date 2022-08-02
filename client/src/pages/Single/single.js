@@ -3,19 +3,30 @@ import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
+import { useLocation } from 'react-router-dom';
 
 import './single.css';
 
 import Article from '../../components/Article';
 import Comment from '../../components/Comment';
 
-// page to display articles with comments - need to pass in article id - we can retrieve the rest
+// *** Import Global State support - need to access the article id (article_id) in global state
+import { useGlobalState } from '../../App';
 
-const Single = ({ id }) => {
-  // put in default id for testing - REMOVE FOR DEPLOYMENT
-  // if (!id) {
-  //   id = '62e4057e8565cedb6f7b8887';
-  // }
+// page to display articles with comments - need to pass in article id - we can retrieve the rest
+const Single = () => {
+  // had to use useLocation to handle props passing from main.js to single.js through a Link - still was not persistent through comment CRUD
+  // const location = useLocation();
+  // const { article_id } = location.props;
+  // const id = article_id;
+
+  // *** Using global state to provide the article_id ***
+  // Call React hook for global state
+  const [state, dispatch] = useGlobalState();
+  // setting id to article_id from global state
+  const id = state.article_id;
+  console.log('article id passed from global state: ' + id);
+
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
   // get comment state
@@ -41,7 +52,8 @@ const Single = ({ id }) => {
     }
   }, [data, error]);
 
-  const handleComment = async () => {
+  const handleComment = async (event) => {
+    event.preventDefault();
     try {
       const response = await addComment({
         variables: {
@@ -50,6 +62,12 @@ const Single = ({ id }) => {
           username: articleData.username,
         },
       });
+      console.log(
+        'comment had been added. articleData._id is: ' +
+          articleData._id +
+          ' id is: ' +
+          id
+      );
     } catch (err) {
       console.error(err);
     }
@@ -67,39 +85,43 @@ const Single = ({ id }) => {
     return <h2>Error! ${error.message}</h2>;
   }
 
-  return (
-    <Container>
-      <Row>
-        <Article
-          key={articleData.url}
-          title={articleData.title}
-          source={articleData.source}
-          url={articleData.url}
-          date={articleData.publishedAt}
-          description={articleData.description}
-        />
-        <Row>
-          <Form onSubmit={handleComment}>
-            <Form.Group>
-              <Form.Label>Comment on Article:</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows="3"
-                name="commentBody"
-                value={commentData}
-                onChange={handleCommentChange}
-              />
-            </Form.Group>
+  return renderPage();
 
-            <Button className="mt-2" type="submit" variant="primary">
-              Add Comment
-            </Button>
-          </Form>
-          <Comment key={articleData._id} articleId={articleData._id} />
+  function renderPage() {
+    return (
+      <Container>
+        <Row>
+          <Article
+            key={articleData.url}
+            title={articleData.title}
+            source={articleData.source}
+            url={articleData.url}
+            date={articleData.publishedAt}
+            description={articleData.description}
+          />
+          <Row>
+            <Form onSubmit={handleComment}>
+              <Form.Group>
+                <Form.Label>Comment on Article:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  name="commentBody"
+                  value={commentData}
+                  onChange={handleCommentChange}
+                />
+              </Form.Group>
+
+              <Button className="mt-2" type="submit" variant="primary">
+                Add Comment
+              </Button>
+            </Form>
+            <Comment key={articleData._id} articleId={articleData._id} />
+          </Row>
         </Row>
-      </Row>
-    </Container>
-  );
+      </Container>
+    );
+  }
 };
 
 export default Single;
