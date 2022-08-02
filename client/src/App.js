@@ -45,51 +45,51 @@ const client = new ApolloClient({
 });
 
 //*** Setup global state to share artical id between Main and Single ***
-const defaultGlobalState = {
-  article_id: '',
-};
+// const defaultGlobalState = {
+//   article_id: '',
+// };
 
-const globalStateContext = React.createContext(defaultGlobalState);
-const dispatchStateContext = React.createContext(undefined);
+// const globalStateContext = React.createContext(defaultGlobalState);
+// const dispatchStateContext = React.createContext(undefined);
 
-const GlobalStateProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(
-    (state, newValue) => ({ ...state, ...newValue }),
-    defaultGlobalState
-  );
-  return (
-    <globalStateContext.Provider value={state}>
-      <dispatchStateContext.Provider value={dispatch}>
-        {children}
-      </dispatchStateContext.Provider>
-    </globalStateContext.Provider>
-  );
-};
+// const GlobalStateProvider = ({ children }) => {
+//   const [state, dispatch] = React.useReducer(
+//     (state, newValue) => ({ ...state, ...newValue }),
+//     defaultGlobalState
+//   );
+//   return (
+//     <globalStateContext.Provider value={state}>
+//       <dispatchStateContext.Provider value={dispatch}>
+//         {children}
+//       </dispatchStateContext.Provider>
+//     </globalStateContext.Provider>
+//   );
+// };
 
-export const useGlobalState = () => [
-  React.useContext(globalStateContext),
-  React.useContext(dispatchStateContext),
-];
+// export const useGlobalState = () => [
+//   React.useContext(globalStateContext),
+//   React.useContext(dispatchStateContext),
+// ];
 
 //*** End global state config ***
 function App() {
   return (
-    <GlobalStateProvider>
-      <ApolloProvider client={client}>
-        <Router>
-          <>
-            <Navbar />
-            <Switch>
-              <Route exact path="/browse" component={Browsing} />
-              <Route exact path="/single" component={Single} />
-              <Route exact path="/saved" component={SavedNewsPage} />
-              <Route exact path="/" component={Main} />
-            </Switch>
-          </>
-          <Footer />
-        </Router>
-      </ApolloProvider>
-    </GlobalStateProvider>
+    // <GlobalStateProvider>
+    <ApolloProvider client={client}>
+      <Router>
+        <>
+          <Navbar />
+          <Switch>
+            <Route exact path="/browse" component={Browsing} />
+            <Route exact path="/single" component={Single} />
+            <Route exact path="/saved" component={SavedNewsPage} />
+            <Route exact path="/" component={Main} />
+          </Switch>
+        </>
+        <Footer />
+      </Router>
+    </ApolloProvider>
+    // </GlobalStateProvider>
   );
 }
 

@@ -13,13 +13,13 @@ import Comment from '../../components/Comment';
 import { useGlobalState } from '../../App';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
-const Single = () => {
+const Single = ({ id }) => {
   // *** Using global state to provide the article_id ***
   // Call React hook for global state
-  const [state, dispatch] = useGlobalState();
+  // const [state, dispatch] = useGlobalState();
   // setting id to article_id from global state
-  const id = state.article_id;
-  console.log('article id passed from global state: ' + id);
+  // const id = state.article_id;
+  console.log('article id passed from main.js: ' + id);
 
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
