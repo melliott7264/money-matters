@@ -76,7 +76,7 @@ function App() {
   return (
     <GlobalStateProvider>
       <ApolloProvider client={client}>
-        <Router>
+        <Router forceRefresh={true}>
           <>
             <Navbar />
             <Switch>
