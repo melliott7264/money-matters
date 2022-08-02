@@ -42,7 +42,7 @@ class Browsing extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card border-success mb-3">
-                                <div className="card-header text-white bg-success border-success">
+                                <div className="card-header text-center text-white bg-success border-success">
                                     <span className="card-title text-center">Latest Headlines</span>
                                 </div>
                             <div className="card-body">

@@ -6,7 +6,6 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Globe } from 'react-bootstrap-icons';
 import { Nav } from 'react-bootstrap';
 import './article.css';
-import { Link } from 'react-router-dom';
 
 const Article = ({ article }) => {
 
@@ -60,7 +59,7 @@ const Article = ({ article }) => {
   };
 
   return (
-  <li key={article._id} className="list-group-item px-2">
+  <li key={article._id} className="list-group-item px-2 mt-3">
     <div className="row">
       <div className="col-md-7">
         <p>
@@ -71,7 +70,7 @@ const Article = ({ article }) => {
         <p>Source: {article.source}</p>
       </div>
     </div>
-    <div className="d-flex align-items-end">
+    <div className="d-flex align-items-end mb-3">
       <h4>{article.title}</h4>
       <Nav.Link href={article.url}>
         <Globe
@@ -85,17 +84,9 @@ const Article = ({ article }) => {
     <div>
       <div className="row g-0 align-middle">
         <div className="col-md-3 mt-2">
-          <Nav.Link
-            as={Link}
-            to={{
-              pathname: '/single',
-              props: { article_id: article._id },
-            }}
-          >
-            <p className="text-primary">
-              Comments: {article.commentCount}
-            </p>
-          </Nav.Link>
+          <p>
+            Comments: {article.commentCount}
+          </p>
         </div>
         <div className="col-md-5 mt-2">
           <p>
