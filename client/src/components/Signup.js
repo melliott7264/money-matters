@@ -6,6 +6,7 @@ import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
 
 const Signup = () => {
+  // initial form state 
   const [userFormData, setUserFormData] = useState({
     username: '',
     email: '',
@@ -25,6 +26,7 @@ const Signup = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    // allow submission only after all fields are filled
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -41,6 +43,7 @@ const Signup = () => {
       setShowAlert(true);
     }
 
+    // empty form fields after submission
     setUserFormData({
       username: '',
       email: '',

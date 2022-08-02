@@ -39,7 +39,7 @@ const Single = ({ id }) => {
     } else {
       console.error('There has been an error loading article data: ' + error);
     }
-  }, [data]);
+  }, [data, error]);
 
   const handleComment = async () => {
     try {
