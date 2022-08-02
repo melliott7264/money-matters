@@ -8,7 +8,7 @@ export const getSavedArticleIds = () => {
 };
 
 export const saveArticleIds = (articleIdArr) => {
-    if (newsIdArr.length === 0) {
+    if (articleIdArr.length === 0) {
         localStorage.setItem('saved_articles', JSON.stringify(articleIdArr));
     } else {
         localStorage.removeItem('saved_articles');

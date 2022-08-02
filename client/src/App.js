@@ -12,9 +12,11 @@ import { setContext } from '@apollo/client/link/context';
 
 import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
+import Main from './pages/Main';
+import SavedNewsPage from './pages/SavedNewsPage/SavedNewsPage';
 import Navbar from './components/Navbar';
-// added in for development - REMOVE TO DEPLOY
 import Single from './pages/Single';
+import { Save } from 'react-bootstrap-icons';
 
 const PORT = process.env.PORT || 3001;
 
@@ -51,6 +53,9 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
+            <Route exact path="/single" component={Single}/>
+            <Route exact path="/saved" component={SavedNewsPage}/>
+            <Route exact path="/" component={Main}/>
             {/* added in for development - REMOVE FOR DEPLOYMENT */}
             {/* <Route exact path="/single" component={Single} /> */}
           </Switch>

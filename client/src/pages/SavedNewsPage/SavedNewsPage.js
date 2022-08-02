@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Auth from '../utils/auth';
+import Auth from '../../utils/auth';
 import { removeArticleid, saveArticleIds } from '../../utils/localstorage';
 import { ADD_POST, REMOVE_ARTICLE } from '../../utils/mutations';
 import { GET_ME } from '../../utils/queries';
@@ -97,7 +97,8 @@ const handleAddPostArticle = async (articleId) => {
                                     <Button 
                                            className="btn-block btn-primary"
                                            onClick={() => handleAddPostArticle(article.articleId)}
-                                           >Add Post</Button>
+                                           >Add Post
+                                    </Button>
                                 <Button
                                     className="btn-block btn-danger"
                                     onClick={() => handleDeleteArticle(article.articleId)}
