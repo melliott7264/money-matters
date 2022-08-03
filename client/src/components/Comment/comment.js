@@ -9,7 +9,7 @@ import './comment.css';
 
 // passing in: articleId and querying all comments
 const Comment = ({ articleId }) => {
-  // set user data state 
+  // set user data state
   const [userData, setUserData] = useState({});
   // set comment data state
   const [commentData, setComment] = useState();
@@ -48,22 +48,24 @@ const Comment = ({ articleId }) => {
       setComment(comment);
       const user = userdata?.me || {};
       setUserData(user);
-      if (user){
-      // wait until DOM elements are created
-      setTimeout(() => {
-        // select delete and edit buttons
-        var deleteSelector = document.querySelectorAll('.deleteBtn')
-        var editSelector = document.querySelectorAll('.editBtn')
-        // remove buttons for other users' comments 
-        for (let i = 0; i < deleteSelector.length; i++) {
-          if (deleteSelector[i].id !== user.username && user.username !== null){
-            deleteSelector[i].remove();
-            editSelector[i].remove();
+      if (user) {
+        // wait until DOM elements are created
+        setTimeout(() => {
+          // select delete and edit buttons
+          var deleteSelector = document.querySelectorAll('.deleteBtn');
+          var editSelector = document.querySelectorAll('.editBtn');
+          // remove buttons for other users' comments
+          for (let i = 0; i < deleteSelector.length; i++) {
+            if (
+              deleteSelector[i].id !== user.username &&
+              user.username !== null
+            ) {
+              deleteSelector[i].remove();
+              editSelector[i].remove();
+            }
           }
-        }
-    }
-  , 50)};
-
+        }, 100);
+      }
     } else {
       console.error('There was an error loading comment data: ' + error);
     }
