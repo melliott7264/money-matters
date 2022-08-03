@@ -62,7 +62,7 @@ const Comment = ({ articleId }) => {
           }
         }
     }
-  , 50)};
+  , 150)};
 
     } else {
       console.error('There was an error loading comment data: ' + error);
