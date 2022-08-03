@@ -17,18 +17,10 @@ const Comment = ({ articleId }) => {
   const [editCommentData, setEditComment] = useState();
   // set state to monitor/pass the comment _id for editing
   const [editId, setEditId] = useState(' ');
-  // set state to display message
-  const [message, setMessage] = useState(' ');
-  // set state to control message modal
-  const [setMessageModalData, setMessageModal] = useState(false);
 
   // functions to open and close edit modal
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
-
-  // functions to open and close message modal
-  const openMessageModal = () => setMessageModal(true);
-  const closeMessageModal = () => setMessageModal(false);
 
   // function to open editing modal and pass the comment _id amd current commentBody
   const editIdData = (id, commentBody) => {
@@ -72,9 +64,8 @@ const Comment = ({ articleId }) => {
         variables: { id: commentId, articleId: articleId },
       });
 
-      // need a page reload here
-      setMessage(`Comment ${commentId} was deleted`);
-      openMessageModal();
+      // force a page reload
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -166,17 +157,6 @@ const Comment = ({ articleId }) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        <Modal show={setMessageModalData} onHide={closeMessageModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Messages</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{message}</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeMessageModal}>
               Close
             </Button>
           </Modal.Footer>
