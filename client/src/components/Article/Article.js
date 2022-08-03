@@ -4,7 +4,7 @@ import { ADD_ARTICLE } from '../../utils/mutations';
 import {GET_ME } from '../../utils/queries';
 import { useMutation, useQuery } from '@apollo/client';
 import { Globe } from 'react-bootstrap-icons';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import './article.css';
 
 const Article = ({ article }) => {
@@ -48,10 +48,10 @@ const Article = ({ article }) => {
         });
         // button feedback
         button.innerHTML =
-          '<button disabled className="btn text-success">Saved</button>';
+          '<Button disabled className="btn text-danger">Saved</Button>';
       } else {
         button.innerHTML =
-          '<button disabled className="btn text-success">Already Saved</button>';
+          '<Button disabled className="btn text-danger">Already Saved</Button>';
       }
     } catch (err) {
       console.log(err);
@@ -101,12 +101,13 @@ const Article = ({ article }) => {
             className="btn-group float-right"
             id={article._id}
           >
-            <button
+            <Button
               onClick={() => handleSaveArticle(article)}
-              className="btn text-danger"
+              variant='danger'
+              className="btn text-white"
             >
               Save Article
-            </button>
+            </Button>
           </span>
         </div>
       </div>

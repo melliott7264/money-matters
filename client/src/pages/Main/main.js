@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLES, GET_ME } from '../../utils/queries';
 import { ADD_ARTICLE } from '../../utils/mutations';
 import { Globe } from 'react-bootstrap-icons';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import moment from 'moment';
 import Auth from '../../utils/auth';
 import { Link } from 'react-router-dom';
@@ -58,8 +58,8 @@ const Main = () => {
           description = article.description;
         }
         const variables = {
-          articleDate: article.publishedAt,
-          source: article.source.name,
+          articleDate: article.articleDate,
+          source: article.source,
           title: article.title,
           description: description,
           url: article.url,
@@ -69,10 +69,10 @@ const Main = () => {
         });
         // button feedback
         button.innerHTML =
-          '<button disabled className="btn text-success">Saved</button>';
+          '<Button variant="danger" disabled className="btn text-success">Saved</Button>';
       } else {
         button.innerHTML =
-          '<button disabled className="btn text-success">Already Saved</button>';
+          '<Button variant="danger" disabled className="btn text-success">Already Saved</Button>';
       }
     } catch (err) {
       console.log(err);
@@ -161,12 +161,13 @@ const Main = () => {
                                   className="btn-group float-right"
                                   id={article._id}
                                 >
-                                  <button
+                                  <Button
+                                    variant='danger'
                                     onClick={() => handleSaveArticle(article)}
-                                    className="btn text-danger"
+                                    className="btn text-white"
                                   >
                                     Save Article
-                                  </button>
+                                  </Button>
                                 </span>
                               </div>
                             </div>
