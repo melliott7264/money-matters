@@ -9,13 +9,7 @@ import moment from 'moment';
 import Auth from '../../utils/auth';
 import { Link } from 'react-router-dom';
 
-// *** Import Global State support - need to save article id as article_id in global state
-import { useGlobalState } from '../../App';
-
 const Main = () => {
-  // Call React hook for global state
-  const [state, dispatch] = useGlobalState();
-
   // Store filtered article data
   const [articleData, setArticleData] = useState([]);
   // Store user data to check if the article is already saved
@@ -41,17 +35,9 @@ const Main = () => {
       .reverse();
     setArticleData(articleCopy);
 
-    //console.log(articleCopy)
     const user = userdata?.me || {};
     setUserData(user);
   }, [articledata, userdata]);
-
-  useEffect(() => {
-    //***  Set global article_id
-    console.log('article: ' + articleData[0]?._id);
-    dispatch({ article_id: articleData[0]?._id });
-    console.log('global variable article_id set to: ' + state.article_id);
-  }, [articleData, dispatch, state.article_id]);
 
   // Save article
   const handleSaveArticle = (article) => {
@@ -154,8 +140,7 @@ const Main = () => {
                                 <Nav.Link
                                   as={Link}
                                   to={{
-                                    pathname: '/single',
-                                    props: { article_id: article._id },
+                                    pathname: `/single/${article._id}`,
                                   }}
                                 >
                                   <p className="text-primary">
