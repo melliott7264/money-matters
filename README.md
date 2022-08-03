@@ -1,17 +1,16 @@
-# <Your-Project-Title>
+# Money Matters
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+This application is an economics focused news sharing website where users can post economic related news provided by newsapi.org. The users can browse available articles for viewing and optionally post them to the main page for public viewing. The user can also save the article to their account. Users can create/delete/edit comments to publicly posted news articles.
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
 
-## Table of Contents (Optional)
 
-If your README is long, add a table of contents to make it easy for users to find what they need.
+
+
+## Table of Contents 
+
+
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -20,11 +19,29 @@ If your README is long, add a table of contents to make it easy for users to fin
 
 ## Installation
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+This application runs on Heroku.com
 
-## Usage
+## Usage 
 
-Provide instructions and examples for use. Include screenshots as needed.
+### Technical Components
+
+- React
+- Apollo
+- Apollo-server
+- Node.js
+- axios
+- Bcrypt
+- express.js
+- Graphql
+- Jwt-decode
+- jsonwebtoken
+- dotenv (enviroment variables)
+- Mongoose
+
+- CSS: react-bootstrap
+- API: newsapi.org
+
+
 
 To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
@@ -36,11 +53,11 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 Mark Elliott  https://github.com/melliott7264
 
-List your collaborators, if any, with links to their GitHub profiles.
+Daniel Liszka https://github.com/DanielLiszka
 
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
+Tyler Shifflett https://github.com/TylerS175
 
-If you followed tutorials, include links to those here as well.
+Darrin Robinson https://github.com/Darobinson20
 
 ## License
 
