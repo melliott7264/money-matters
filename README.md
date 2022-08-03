@@ -4,13 +4,7 @@
 
 This application is an economics focused news sharing website where users can post economic related news provided by newsapi.org. The users can browse available articles for viewing and optionally post them to the main page for public viewing. The user can also save the article to their account. Users can create/delete/edit comments to publicly posted news articles.
 
-
-
-
-
-## Table of Contents 
-
-
+## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -21,7 +15,7 @@ This application is an economics focused news sharing website where users can po
 
 This application runs on Heroku.com
 
-## Usage 
+## Usage
 
 ### Technical Components
 
@@ -41,8 +35,6 @@ This application runs on Heroku.com
 - CSS: react-bootstrap
 - API: newsapi.org
 
-
-
 To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
     ```md
@@ -51,7 +43,7 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 ## Credits
 
-Mark Elliott  https://github.com/melliott7264
+Mark Elliott https://github.com/melliott7264
 
 Daniel Liszka https://github.com/DanielLiszka
 
@@ -61,7 +53,7 @@ Darrin Robinson https://github.com/Darobinson20
 
 ## License
 
-Copyright (c) 2022 Mark Elliott
+Copyright (c) 2022 Mark Elliott, Daniel Liszka, Tyler Shifflet, Darrin Robinson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
