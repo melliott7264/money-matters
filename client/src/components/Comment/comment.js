@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_COMMENTS } from '../../utils/queries';
+import { GET_COMMENTS, GET_ME } from '../../utils/queries';
 import { REMOVE_COMMENT, EDIT_COMMENT } from '../../utils/mutations';
 
 import './comment.css';
 
 // passing in: articleId and querying all comments
 const Comment = ({ articleId }) => {
+  // set user data state 
+  const [userData, setUserData] = useState({});
   // set comment data state
   const [commentData, setComment] = useState();
   // set state for modal - false - closed
@@ -32,7 +34,7 @@ const Comment = ({ articleId }) => {
   // define callback functions for mutations
   const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
   const [editComment, { editError }] = useMutation(EDIT_COMMENT);
-
+  const { data: userdata } = useQuery(GET_ME);
   // GET_COMMENTS returns: (comment)_id, articleId, postDate, username, commentBody
   const { loading, error, data } = useQuery(GET_COMMENTS, {
     variables: { articleId: articleId },
@@ -44,10 +46,28 @@ const Comment = ({ articleId }) => {
       const comment = data?.comments || [];
       //sets commentData displaying comments
       setComment(comment);
+      const user = userdata?.me || {};
+      setUserData(user);
+      if (user){
+      // wait until DOM elements are created
+      setTimeout(() => {
+        // select delete and edit buttons
+        var deleteSelector = document.querySelectorAll('.deleteBtn')
+        var editSelector = document.querySelectorAll('.editBtn')
+        // remove buttons for other users' comments 
+        for (let i = 0; i < deleteSelector.length; i++) {
+          if (deleteSelector[i].id !== user.username && user.username !== null){
+            deleteSelector[i].remove();
+            editSelector[i].remove();
+          }
+        }
+    }
+  , 50)};
+
     } else {
       console.error('There was an error loading comment data: ' + error);
     }
-  }, [data, error]);
+  }, [data, error, userdata]);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -128,6 +148,7 @@ const Comment = ({ articleId }) => {
 
           <Button
             className="btn deleteBtn"
+            id={comment.username}
             variant="danger"
             onClick={() => handleDeleteComment(comment._id, comment.articleId)}
           >
