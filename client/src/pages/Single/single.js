@@ -10,19 +10,10 @@ import './single.css';
 import Article from '../../components/Article';
 import Comment from '../../components/Comment';
 
-// *** Import Global State support - need to access the article id (article_id) in global state
-import { useGlobalState } from '../../App';
-
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
 const Single = () => {
   // get id from params passed in URL
   const { id } = useParams();
-  // *** Using global state to provide the article_id ***
-  // Call React hook for global state
-  // const [state, dispatch] = useGlobalState();
-  // setting id to article_id from global state
-  // const id = state.article_id;
-  console.log('article id passed from main.js: ' + id);
 
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
