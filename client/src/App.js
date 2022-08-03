@@ -12,13 +12,18 @@ import { setContext } from '@apollo/client/link/context';
 
 import Footer from './components/Footer';
 import Browsing from './pages/Browsing';
+import Main from './pages/Main';
+import SavedNewsPage from './pages/SavedNewsPage/SavedNewsPage';
 import Navbar from './components/Navbar';
-// added in for development - REMOVE TO DEPLOY
 import Single from './pages/Single';
 
 const PORT = process.env.PORT || 3001;
 
-const graphqlPath = `http://localhost:${PORT}/graphql`;
+let graphqlPath = `http://localhost:${PORT}/graphql`;
+
+if (process.env.NODE_ENV === 'production') {
+  graphqlPath = '/graphql';
+}
 
 const httpLink = createHttpLink({
   uri: graphqlPath,
@@ -39,21 +44,25 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+//*** End global state config ***
 function App() {
   return (
+    // <GlobalStateProvider>
     <ApolloProvider client={client}>
-      <Router>
+      <Router forceRefresh={true}>
         <>
           <Navbar />
           <Switch>
             <Route exact path="/browse" component={Browsing} />
-            {/* added in for development - REMOVE FOR DEPLOYMENT */}
-            <Route exact path="/single" component={Single} />
+            <Route exact path="/single/:id" component={Single} />
+            <Route exact path="/saved" component={SavedNewsPage} />
+            <Route exact path="/" component={Main} />
           </Switch>
         </>
         <Footer />
       </Router>
     </ApolloProvider>
+    //</GlobalStateProvider>
   );
 }
 

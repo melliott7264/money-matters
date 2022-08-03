@@ -31,6 +31,7 @@ export const GET_ARTICLE = gql`
   query article($id: ID!) {
     article(_id: $id) {
       _id
+      userId
       post
       articleDate
       postDate
@@ -101,6 +102,7 @@ export const GET_ME = gql`
       savedArticles {
         _id
         articleDate
+        post
         postDate
         source
         title

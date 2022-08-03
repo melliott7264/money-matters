@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ARTICLE } from '../../utils/queries';
-import {
-  ADD_COMMENT,
-  REMOVE_COMMENT,
-  EDIT_COMMENT,
-} from '../../utils/mutations';
+import { ADD_COMMENT } from '../../utils/mutations';
+import { useParams } from 'react-router-dom';
 
 import './single.css';
 
@@ -14,42 +11,43 @@ import Article from '../../components/Article';
 import Comment from '../../components/Comment';
 
 // page to display articles with comments - need to pass in article id - we can retrieve the rest
+const Single = () => {
+  // get id from params passed in URL
+  const { id } = useParams();
 
-const Single = ({ id }) => {
-  // put in default id for testing - REMOVE FOR DEPLOYMENT
-  if (!id) {
-    id = '62e4057e8565cedb6f7b8887';
-    console.log('id : ' + id);
-  }
   // use useState to update screen with article data
-  const [articleData, setArticleData] = useState({});
+  const [articleData, setArticleData] = useState();
   // get comment state
-  const [commentData, setComment] = useState({});
+  const [commentData, setComment] = useState();
 
   // define callback functions for mutations
   const [addComment, { addError }] = useMutation(ADD_COMMENT);
-  const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
-  const [editComment, { editError }] = useMutation(EDIT_COMMENT);
 
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
-  const { loading, error, data } = useQuery(GET_ARTICLE, {
+  const { loading, error, data, refetch } = useQuery(GET_ARTICLE, {
     variables: { id: id },
   });
-  // const { loading, error, data } = useQuery(GET_ARTICLES);
 
   // runs once data has loaded
   useEffect(() => {
-    const article = data?.article || {};
-    //sets userData displaying article information
-    setArticleData(article);
-    console.log('articleData: ' + JSON.stringify(articleData));
-  }, [data, articleData]);
+    if (!error) {
+      const article = data?.article || {};
+      //sets userData displaying article information
+      setArticleData(article);
+    } else {
+      console.error('There has been an error loading article data: ' + error);
+    }
+  }, [data, error]);
 
-  const handleComment = async (userId) => {
+  const handleComment = async (event) => {
     try {
       const response = await addComment({
-        variables: { articleId: userId, commentBody: commentData },
+        variables: {
+          articleId: articleData._id,
+          commentBody: commentData,
+          username: articleData.username,
+        },
       });
     } catch (err) {
       console.error(err);
@@ -58,7 +56,6 @@ const Single = ({ id }) => {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    console.log('comment change: ' + commentData);
   };
 
   if (loading) {
@@ -69,43 +66,36 @@ const Single = ({ id }) => {
     return <h2>Error! ${error.message}</h2>;
   }
 
-  return (
-    <Container>
-      <Row>
-        <Article
-          key={articleData.url}
-          title={articleData.title}
-          source={articleData.source}
-          url={articleData.url}
-          date={articleData.publishedAt}
-          description={articleData.description}
-          urlToImage={articleData.urlToImage}
-        />
+  return renderPage();
+
+  function renderPage() {
+    return (
+      <Container>
         <Row>
-          <Form onSubmit={handleComment(articleData.user._id)}>
-            <Form.Row>
-              <Col xs={12} md={8}>
+          <Article key={articleData.url} article={articleData} />
+          <Row>
+            <Form onSubmit={handleComment}>
+              <Form.Group>
+                <Form.Label>Comment on Article:</Form.Label>
                 <Form.Control
                   as="textarea"
+                  rows="3"
                   name="commentBody"
-                  value={articleData.comment.commentBody}
+                  value={commentData}
                   onChange={handleCommentChange}
-                  size="lg"
-                  placeholder="Comment on the article..."
                 />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Add Comment
-                </Button>
-              </Col>
-            </Form.Row>
-          </Form>
-          {/* <Comment /> */}
+              </Form.Group>
+
+              <Button className="mt-2" type="submit" variant="primary">
+                Add Comment
+              </Button>
+            </Form>
+            <Comment key={articleData._id} articleId={articleData._id} />
+          </Row>
         </Row>
-      </Row>
-    </Container>
-  );
+      </Container>
+    );
+  }
 };
 
 export default Single;

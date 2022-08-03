@@ -26,7 +26,7 @@ const typeDefs = gql`
     ): Article
     postArticle(_id: ID!, post: Boolean!): Article
     removeArticle(_id: ID!): Article
-    addComment(articleId: ID!, commentBody: String!): Comment
+    addComment(articleId: ID!, commentBody: String!, username: String): Comment
     removeComment(_id: ID!, articleId: ID!): Comment
     editComment(_id: ID!, commentBody: String!): Comment
   }
