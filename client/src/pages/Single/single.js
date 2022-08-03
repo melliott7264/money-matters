@@ -25,7 +25,7 @@ const Single = () => {
 
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
-  const { loading, error, data } = useQuery(GET_ARTICLE, {
+  const { loading, error, data, refetch } = useQuery(GET_ARTICLE, {
     variables: { id: id },
   });
 
@@ -41,7 +41,6 @@ const Single = () => {
   }, [data, error]);
 
   const handleComment = async (event) => {
-    event.preventDefault();
     try {
       const response = await addComment({
         variables: {
