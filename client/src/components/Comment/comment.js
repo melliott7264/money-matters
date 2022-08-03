@@ -43,7 +43,6 @@ const Comment = ({ articleId }) => {
     if (!error) {
       const comment = data?.comments || [];
       //sets commentData displaying comments
-      console.log(comment)
       setComment(comment);
     } else {
       console.error('There was an error loading comment data: ' + error);
