@@ -32,7 +32,6 @@ const Comment = ({ articleId }) => {
   // define callback functions for mutations
   const [deleteComment, { delError }] = useMutation(REMOVE_COMMENT);
   const [editComment, { editError }] = useMutation(EDIT_COMMENT);
-
   // GET_COMMENTS returns: (comment)_id, articleId, postDate, username, commentBody
   const { loading, error, data } = useQuery(GET_COMMENTS, {
     variables: { articleId: articleId },

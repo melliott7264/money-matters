@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ARTICLE } from '../../utils/queries';
+import { GET_ARTICLE} from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
 import { useParams } from 'react-router-dom';
 

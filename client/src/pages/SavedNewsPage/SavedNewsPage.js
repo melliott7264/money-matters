@@ -5,7 +5,7 @@ import { ADD_POST, REMOVE_ARTICLE } from '../../utils/mutations';
 import { GET_ME } from '../../utils/queries';
 import { useQuery, useMutation } from '@apollo/client';
 import { Globe } from 'react-bootstrap-icons';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import moment from 'moment';
 
 // Imports the CSS from SavedNewsPage.css
@@ -90,9 +90,9 @@ const SavedNewsPage = () => {
             variables: { _id: articleId, post: true},
         })
         //console.log(response)
-        button.innerHTML = '<button disabled className="btn text-success">Posted</button>';
+        button.innerHTML = '<Button variant="primary" disabled className="btn text-success">Posted</Button>';
     } else {
-        button.innerHTML = '<button disabled className="btn text-success">Already Posted</button>';
+        button.innerHTML = '<Button variant="primary" disabled className="btn text-success">Already Posted</Button>';
     }
     } catch (err) {
         console.log(err);
@@ -137,17 +137,17 @@ const SavedNewsPage = () => {
                                     <p> {article.description}</p>
                                     <div>
                                         <div className="row g-0 align-middle">
-                                        <div className="col-md-4 mt-2">
-                                            <p>Published: {moment(Number(article.articleDate)).format('MMMM Do YYYY, h:mm a')}</p>
-                                        </div>
-                                        <div className="col-md-4 w-auto ms-auto">
-                                            <span className="btn-group float-right" id={article.url}>
-                                                <button onClick={() => handleAddPostArticle(article)} className="btn text-primary">Post Article</button>
-                                            </span>
-                                            <span className="btn-group float-right">
-                                                <button onClick={() => handleDeleteArticle(article._id)} className="btn text-danger">Delete Article</button>
-                                            </span>
-                                        </div>
+                                            <div className="col-md-4 mt-2">
+                                                <p>Published: {moment(Number(article.articleDate)).format('MMMM Do YYYY, h:mm a')}</p>
+                                            </div>
+                                            <div className="col-md-4 w-auto ms-auto">
+                                                <span className="btn-group float-right" id={article.url}>
+                                                    <Button variant='primary' onClick={() => handleAddPostArticle(article)} className="btn text-white">Post Article</Button>
+                                                </span>
+                                                <span className="btn-group float-right">
+                                                    <Button variant='danger' onClick={() => handleDeleteArticle(article._id)} className="btn text-white">Delete Article</Button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
