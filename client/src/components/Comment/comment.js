@@ -64,10 +64,8 @@ const Comment = ({ articleId }) => {
               editSelector[i].remove();
             }
           }
-        }
-    }
-  , 150)};
-
+        }, 150);
+      }
     } else {
       console.error('There was an error loading comment data: ' + error);
     }
