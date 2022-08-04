@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ARTICLE, GET_ME } from '../../utils/queries';
+import { GET_ARTICLE} from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
 import { useParams } from 'react-router-dom';
 
@@ -23,10 +23,6 @@ const Single = () => {
   // define callback functions for mutations
   const [addComment, { addError }] = useMutation(ADD_COMMENT);
 
-  // use useState to set user data
-  const [userData, setUserData] = useState({});
-  const { data: userdata } = useQuery(GET_ME);
-
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
   const { loading, error, data, refetch } = useQuery(GET_ARTICLE, {
@@ -39,8 +35,6 @@ const Single = () => {
       const article = data?.article || {};
       //sets userData displaying article information
       setArticleData(article);
-      const user = userdata?.me || {};
-      setUserData(user);
     } else {
       console.error('There has been an error loading article data: ' + error);
     }
@@ -52,7 +46,7 @@ const Single = () => {
         variables: {
           articleId: articleData._id,
           commentBody: commentData,
-          username: userData.username,
+          username: articleData.username,
         },
       });
     } catch (err) {
