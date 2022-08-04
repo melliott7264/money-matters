@@ -7,8 +7,8 @@ import { REMOVE_COMMENT, EDIT_COMMENT } from '../../utils/mutations';
 
 import './comment.css';
 
-// passing in: articleId and querying all comments
-const Comment = ({ articleId }) => {
+// passing in: articleId and logged-in username and querying all comments
+const Comment = ({ articleId, username }) => {
   // set comment data state
   const [commentData, setComment] = useState();
   // set state for modal - false - closed
@@ -117,21 +117,26 @@ const Comment = ({ articleId }) => {
           <p>{comment.commentBody}</p>
         </div>
         <div>
-          <Button
-            className="btn editBtn"
-            variant="primary"
-            onClick={() => editIdData(comment._id, comment.commentBody)}
-          >
-            Edit Comment
-          </Button>
-
-          <Button
-            className="btn deleteBtn"
-            variant="danger"
-            onClick={() => handleDeleteComment(comment._id, comment.articleId)}
-          >
-            Delete Comment
-          </Button>
+          {comment.username === username && (
+            <Button
+              className="btn editBtn"
+              variant="primary"
+              onClick={() => editIdData(comment._id, comment.commentBody)}
+            >
+              Edit Comment
+            </Button>
+          )}
+          {comment.username === username && (
+            <Button
+              className="btn deleteBtn"
+              variant="danger"
+              onClick={() =>
+                handleDeleteComment(comment._id, comment.articleId)
+              }
+            >
+              Delete Comment
+            </Button>
+          )}
         </div>
         <Modal show={setModalData} onHide={closeModal}>
           <Modal.Header closeButton>

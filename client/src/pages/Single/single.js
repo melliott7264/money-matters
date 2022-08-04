@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ARTICLE} from '../../utils/queries';
+import { GET_ARTICLE, GET_ME } from '../../utils/queries';
 import { ADD_COMMENT } from '../../utils/mutations';
 import { useParams } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ const Single = () => {
   // get id from params passed in URL
   const { id } = useParams();
 
+  // use useState to update logged-in  user data
+  const [userData, setUserData] = useState();
   // use useState to update screen with article data
   const [articleData, setArticleData] = useState();
   // get comment state
@@ -25,20 +27,34 @@ const Single = () => {
 
   // GET_ARTICAL returns: (user)_id, (article)articleDate, postDate, source, title, description, url, username, commentCount
   // (comment)_id, articleId, postDate, username, commentBody
-  const { loading, error, data, refetch } = useQuery(GET_ARTICLE, {
+  const { loading, error, data } = useQuery(GET_ARTICLE, {
     variables: { id: id },
   });
 
-  // runs once data has loaded
+  // Need to get logged-in user to get username for saving comment
+  const { loading: loadingMe, error: errorMe, data: dataMe } = useQuery(GET_ME);
+
+  // runs once data has loaded from both article and logged-in user
   useEffect(() => {
-    if (!error) {
+    if (!error && !errorMe) {
+      // grab the data from the returned value
       const article = data?.article || {};
-      //sets userData displaying article information
+      const user = dataMe?.me || {};
+
+      // set userData displaying logged-in user information
+      setUserData(user);
+      //sets articleData displaying article information
       setArticleData(article);
     } else {
-      console.error('There has been an error loading article data: ' + error);
+      if (error) {
+        console.error('There has been an error loading article data: ' + error);
+      } else {
+        console.error(
+          'There has been an error loading article data: ' + errorMe
+        );
+      }
     }
-  }, [data, error]);
+  }, [data, error, dataMe, errorMe]);
 
   const handleComment = async (event) => {
     try {
@@ -46,7 +62,7 @@ const Single = () => {
         variables: {
           articleId: articleData._id,
           commentBody: commentData,
-          username: articleData.username,
+          username: userData.username,
         },
       });
     } catch (err) {
@@ -58,12 +74,16 @@ const Single = () => {
     setComment(event.target.value);
   };
 
-  if (loading) {
+  if (loading || loadingMe) {
     return <h2>Loading...</h2>;
   }
 
-  if (error) {
-    return <h2>Error! ${error.message}</h2>;
+  if (error || errorMe) {
+    if (error) {
+      return <h2>Error! ${error.message}</h2>;
+    } else {
+      return <h2>Error! ${errorMe.message}</h2>;
+    }
   }
 
   return renderPage();
@@ -90,7 +110,11 @@ const Single = () => {
                 Add Comment
               </Button>
             </Form>
-            <Comment key={articleData._id} articleId={articleData._id} />
+            <Comment
+              key={articleData._id}
+              articleId={articleData._id}
+              username={userData.username}
+            />
           </Row>
         </Row>
       </Container>
